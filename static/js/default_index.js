@@ -1,5 +1,4 @@
 // This is the js for the default/index.html view.
-
 var app = function() {
 
     var self = {};
@@ -19,17 +18,21 @@ var app = function() {
         delimiters: ['${', '}'],
         unsafeDelimiters: ['!{', '}'],
         data: {
+            title: "",
+            content: ""
         },
         methods: {
         }
 
     });
 
-
     return self;
 };
 
 var APP = null;
+
+// No, this would evaluate it too soon.
+// var APP = app();
 
 // This will make everything accessible from the js console;
 // for instance, self.x above would be accessible as APP.x
