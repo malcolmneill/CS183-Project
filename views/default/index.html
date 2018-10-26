@@ -4,6 +4,7 @@
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
 <script>
     var add_post_url = "{{=URL('api', 'add_post', user_signature=True)}}";
+    var get_post_list_url = "{{=URL('api', 'get_post_list')}}";
     var is_logged_in = {{='false' if auth.user is None else 'true'}};
 </script>
 {{end}}
@@ -40,6 +41,16 @@
         </div>
       </div>
 
+      <!-- Message in case there are no posts. -->
+      <div v-if="post_list.length === 0">There are no posts.</div>
+
+      <!-- We display the posts. -->
+      <div id="post_list">
+        <div class="post_div" v-for="post in post_list">
+          <div class="post_title">${post.post_title}</div>
+          <div class="post_content">${post.post_content}</div>
+        </div>
+      </div>
 
     </div>
 

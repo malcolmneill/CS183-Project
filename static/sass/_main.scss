@@ -9,4 +9,14 @@ div.main_content {
     margin-top: 8px;
     margin-bottom: 8px;
   }
+
+  div.post_div {
+    margin: 4px;
+    border: 1px black solid;
+    background-color: $clrLight;
+    padding: 4px;
+    .post_title {
+      font-size: 120%;
+    }
+  }
 }

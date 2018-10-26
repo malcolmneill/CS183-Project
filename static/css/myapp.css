@@ -12,3 +12,14 @@ div.main_content div.form_row {
   margin-top: 8px;
   margin-bottom: 8px;
 }
+/* line 13, ../sass/_main.scss */
+div.main_content div.post_div {
+  margin: 4px;
+  border: 1px black solid;
+  background-color: #eeeeee;
+  padding: 4px;
+}
+/* line 18, ../sass/_main.scss */
+div.main_content div.post_div .post_title {
+  font-size: 120%;
+}
