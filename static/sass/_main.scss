@@ -3,5 +3,10 @@
 }
 
 div.main_content {
-  margin: 16px;
+  padding: 16px;
+
+  div.form_row {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
 }

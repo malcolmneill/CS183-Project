@@ -3,7 +3,8 @@
 {{block head}}
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
 <script>
-    var my_url = "{{=URL('api', 'my_method')}}";
+    var add_post_url = "{{=URL('api', 'add_post', user_signature=True)}}";
+    var is_logged_in = {{='false' if auth.user is None else 'true'}};
 </script>
 {{end}}
 
@@ -13,25 +14,29 @@
       <!-- Your code goes here.  Remember to call $("#vue-div").show() once you get the data for the first time. -->
 
       <!-- First, let's add a form to insert blog posts. -->
-      <div id="#add_post">
-        <div class="container">
+      <div id="add_post" style="display:none">
+        <div class="container form_row">
           <div class="label quarter">
             Title:
           </div>
           <div class="form threequarters">
-            <input v-model="title" placeholder="Enter the post title"/>
+            <input v-model="form_title" placeholder="Enter the post title"/>
           </div>
         </div>
-        <div class="container">
+        <div class="container form_row">
           <div class="label quarter">
             Content:
           </div>
           <div class="form threequarters">
-            <textarea v-model="content" placeholder="Enter the content of your post"></textarea>
+            <textarea v-model="form_content" placeholder="Enter the content of your post"></textarea>
           </div>
         </div>
-        <div class="submit">
-          <button id="submit">Submit</button>
+        <div class="container form_row"><div class="quarter"></div>
+          <div class="threequarters">
+            <div class="submit">
+              <button id="add-post" v-on:click="add_post">Submit</button>
+            </div>
+          </div>
         </div>
       </div>
 

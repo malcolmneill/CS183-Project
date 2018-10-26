@@ -5,5 +5,10 @@
 
 /* line 5, ../sass/_main.scss */
 div.main_content {
-  margin: 16px;
+  padding: 16px;
+}
+/* line 8, ../sass/_main.scss */
+div.main_content div.form_row {
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
