@@ -65,6 +65,8 @@ var app = function() {
         enumerate(self.vue.post_list);
         // We initialize the smile status to match the like. 
         self.vue.post_list.map(function (e) {
+            // I need to use Vue.set here, because I am adding a new watched attribute
+            // to an object.  See https://vuejs.org/v2/guide/list.html#Object-Change-Detection-Caveats
             Vue.set(e, '_smile', e.like);
         });
     }
@@ -81,6 +83,11 @@ var app = function() {
         // The like status is toggled; the UI is not changed.
         p = self.vue.post_list[post_idx];
         p.like = !p.like;
+        // We need to post back the change to the server.
+        $.post(set_like_url, {
+            post_id: p.id,
+            like: p.like
+        }); // Nothing to do upon completion.
     }
 
     self.like_mouseout = function (post_idx) {

@@ -46,6 +46,19 @@ def get_post_list():
     return response.json(dict(post_list=results))
     
 
+
+@auth.requires_signature()
+def set_like():
+    post_id = int(request.vars.post_id)
+    like_status = request.vars.like.lower().startswith('t');
+    if like_status:
+        db.user_like.update_or_insert(
+            (db.user_like.post_id == post_id) & (db.user_like.user_email == auth.user.email),
+            post_id = post_id,
+            user_email = auth.user.email
+        )
+
+
 def get_likers():
     """Gets the list of people who liked a post."""
     post_id = int(request.vars[0])
