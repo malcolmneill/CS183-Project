@@ -75,6 +75,8 @@ var app = function() {
             Vue.set(e, '_likers_known', false);
             // Do I show who liked? 
             Vue.set(e, '_show_likers', false);
+            // Number of stars to display.
+            Vue.set(e, '_num_stars_display', e.rating);
         });
     };
 
@@ -120,6 +122,24 @@ var app = function() {
         p._smile = p.like;
     };
 
+    // Code for star ratings.
+    self.stars_out = function (post_idx) {
+        // Out of the star rating; set number of visible back to rating.
+        var p = self.vue.post_list[post_idx];
+        p._num_stars_display = p.rating;
+    };
+
+    self.stars_over = function(post_idx, star_idx) {
+        // Hovering over a star; we show that as the number of active stars.
+        var p = self.vue.post_list[post_idx];
+        p._num_stars_display = star_idx;
+    };
+
+    self.set_stars = function(post_idx, star_idx) {
+        // The user has set this as the number of stars for the post.
+        var p = self.vue.post_list[post_idx];
+        p.rating = star_idx;
+    };
 
     // Complete as needed.
     self.vue = new Vue({
@@ -129,7 +149,8 @@ var app = function() {
         data: {
             form_title: "",
             form_content: "",
-            post_list: []
+            post_list: [],
+            star_indices: [1, 2, 3, 4, 5]
         },
         methods: {
             add_post: self.add_post,
@@ -139,7 +160,11 @@ var app = function() {
             like_click: self.like_click,
             // Show/hide who liked.
             show_likers: self.show_likers,
-            hide_likers: self.hide_likers
+            hide_likers: self.hide_likers,
+            // Star ratings.
+            stars_out: self.stars_out,
+            stars_over: self.stars_over,
+            set_stars: self.set_stars
         }
 
     });
