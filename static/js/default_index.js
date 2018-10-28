@@ -56,7 +56,7 @@ var app = function() {
                 self.process_posts();
             }
         );
-    }
+    };
 
     self.process_posts = function() {
         // This function is used to post-process posts, after the list has been modified
@@ -67,17 +67,41 @@ var app = function() {
         self.vue.post_list.map(function (e) {
             // I need to use Vue.set here, because I am adding a new watched attribute
             // to an object.  See https://vuejs.org/v2/guide/list.html#Object-Change-Detection-Caveats
+            // Did I like it? 
             Vue.set(e, '_smile', e.like);
+            // Who liked it?
+            Vue.set(e, '_likers', []);
+            // Do I know who liked it? (This could also be a timestamp to limit refresh)
+            Vue.set(e, '_likers_known', false);
+            // Do I show who liked? 
+            Vue.set(e, '_show_likers', false);
         });
-    }
+    };
+
+    // Code for getting and displaying the list of likers. 
+    self.show_likers = function(post_idx) {
+        var p = self.vue.post_list[post_idx];
+        p._show_likers = true;
+        if (!p._likers_known) {
+            $.getJSON(get_likers_url, {post_id: p.id}, function (data) {
+                p._likers = data.likers
+                p._likers_known = true;
+            })
+        }
+    };
+
+    self.hide_likers = function(post_idx) {
+        var p = self.vue.post_list[post_idx];
+        p._show_likers = false;
+    };
 
     // Smile change code. 
     self.like_mouseover = function (post_idx) {
         // When we mouse over something, the face has to assume the opposite
-        // of the current state, to indicate the effect. 
+        // of the current state, to indicate the effect.
         var p = self.vue.post_list[post_idx];
         p._smile = !p.like;
-    }
+    };
 
     self.like_click = function (post_idx) {
         // The like status is toggled; the UI is not changed.
@@ -88,13 +112,13 @@ var app = function() {
             post_id: p.id,
             like: p.like
         }); // Nothing to do upon completion.
-    }
+    };
 
     self.like_mouseout = function (post_idx) {
         // The like and smile status coincide again.
         var p = self.vue.post_list[post_idx];
         p._smile = p.like;
-    }
+    };
 
 
     // Complete as needed.
@@ -109,10 +133,13 @@ var app = function() {
         },
         methods: {
             add_post: self.add_post,
-            // Smile. 
+            // Likers. 
             like_mouseover: self.like_mouseover,
             like_mouseout: self.like_mouseout,
-            like_click: self.like_click
+            like_click: self.like_click,
+            // Show/hide who liked.
+            show_likers: self.show_likers,
+            hide_likers: self.hide_likers
         }
 
     });

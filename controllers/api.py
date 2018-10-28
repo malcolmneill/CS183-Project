@@ -63,11 +63,11 @@ def set_like():
 
 def get_likers():
     """Gets the list of people who liked a post."""
-    post_id = int(request.vars[0])
+    post_id = int(request.vars.post_id)
     # We get directly the list of all the users who liked the post. 
-    likers = db(db.user_like.post_id == post_id).select(db.user_like.user_email).as_list()
+    rows = db(db.user_like.post_id == post_id).select(db.user_like.user_email)
     # If the user is logged in, we remove the user from the set.
-    likers_set = set(likers)
+    likers_set = set([r.user_email for r in rows])
     if auth.user:
         likers_set -= {auth.user.email}
     likers_list = list(likers_set)
