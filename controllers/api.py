@@ -15,13 +15,13 @@ def get_post_list():
     results = []
     if auth.user is None:
         # Not logged in.
-        rows = db(db.post).select(orderby=~db.post.post_time)
+        rows = db().select(db.post.ALL, orderby=~db.post.post_time)
         for row in rows:
             results.append(dict(
-                id=row.post.id,
-                post_title=row.post.post_title,
-                post_content=row.post.post_content,
-                post_author=row.post.post_author,
+                id=row.id,
+                post_title=row.post_title,
+                post_content=row.post_content,
+                post_author=row.post_author,
                 like = False, # Anyway not used as the user is not logged in. 
                 rating = None, # As above
             ))
@@ -75,3 +75,15 @@ def get_likers():
     # We return this list as a dictionary field, to be consistent with all other calls.
     return response.json(dict(likers=likers_list))
 
+
+def set_stars():
+    """Sets the star rating of a post."""
+    post_id = int(request.vars.post_id)
+    rating = int(request.vars.rating)
+    db.user_star.update_or_insert(
+        (db.user_star.post_id == post_id) & (db.user_star.user_email == auth.user.email),
+        post_id = post_id,
+        user_email = auth.user.email,
+        rating = rating
+    )
+    return "ok" # Might be useful in debugging.

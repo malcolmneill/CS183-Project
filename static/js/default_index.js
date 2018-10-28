@@ -139,6 +139,11 @@ var app = function() {
         // The user has set this as the number of stars for the post.
         var p = self.vue.post_list[post_idx];
         p.rating = star_idx;
+        // Sends the rating to the server.
+        $.post(set_stars_url, {
+            post_id: p.id,
+            rating: star_idx
+        });
     };
 
     // Complete as needed.
