@@ -12,12 +12,13 @@ def add_post():
 
 
 def get_post_list():
+    results = []
     if auth.user is None:
         # Not logged in.
         rows = db(db.post).select(orderby=~db.post.post_time)
         for row in rows:
             results.append(dict(
-                id=db.post.id,
+                id=row.post.id,
                 post_title=row.post.post_title,
                 post_content=row.post.post_content,
                 post_author=row.post.post_author,
@@ -32,10 +33,9 @@ def get_post_list():
                                 db.user_star.on((db.user_star.post_id == db.post.id) & (db.user_star.user_email == auth.user.email)),
                             ],
                             orderby=~db.post.post_time)
-        results = []
         for row in rows:
             results.append(dict(
-                id=db.post.id,
+                id=row.post.id,
                 post_title=row.post.post_title,
                 post_content=row.post.post_content,
                 post_author=row.post.post_author,
@@ -45,7 +45,6 @@ def get_post_list():
     # For homogeneity, we always return a dictionary.
     return response.json(dict(post_list=results))
     
-
 
 @auth.requires_signature()
 def set_like():
@@ -57,6 +56,9 @@ def set_like():
             post_id = post_id,
             user_email = auth.user.email
         )
+    else:
+        db((db.user_like.post_id == post_id) & (db.user_like.user_email == auth.user.email)).delete()
+    return "ok" # Might be useful in debugging.
 
 
 def get_likers():

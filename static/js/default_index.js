@@ -75,13 +75,13 @@ var app = function() {
     self.like_mouseover = function (post_idx) {
         // When we mouse over something, the face has to assume the opposite
         // of the current state, to indicate the effect. 
-        p = self.vue.post_list[post_idx];
+        var p = self.vue.post_list[post_idx];
         p._smile = !p.like;
     }
 
     self.like_click = function (post_idx) {
         // The like status is toggled; the UI is not changed.
-        p = self.vue.post_list[post_idx];
+        var p = self.vue.post_list[post_idx];
         p.like = !p.like;
         // We need to post back the change to the server.
         $.post(set_like_url, {
@@ -92,7 +92,7 @@ var app = function() {
 
     self.like_mouseout = function (post_idx) {
         // The like and smile status coincide again.
-        p = self.vue.post_list[post_idx];
+        var p = self.vue.post_list[post_idx];
         p._smile = p.like;
     }
 
