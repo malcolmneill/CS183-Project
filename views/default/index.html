@@ -49,6 +49,16 @@
         <div class="post_div" v-for="post in post_list">
           <div class="post_title">${post.post_title}</div>
           <div class="post_content">${post.post_content}</div>
+          <div class="attributes">
+            <!-- Code for the face for likes. -->
+            <span v-if="is_logged_in"
+                  v-on:mouseover="like_mouseover(post._idx)"
+                  v-on:mouseout="like_mouseout(post._idx)"
+                  v-on:click="like_click(post._idx)">
+                  <i v-if="post._smile" class="fa fa-smile-o" v-bind:class="{changed: post._smile === !post.like}"></i>
+                  <i v-if="!post._smile" class="fa fa-meh-o" v-bind:class="{changed: post._smile === !post.like}"></i>
+            </span>
+          </div>
         </div>
       </div>
 

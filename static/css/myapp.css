@@ -23,3 +23,7 @@ div.main_content div.post_div {
 div.main_content div.post_div .post_title {
   font-size: 120%;
 }
+/* line 22, ../sass/_main.scss */
+div.main_content i.changed {
+  color: #777777;
+}
