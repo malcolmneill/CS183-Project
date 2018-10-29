@@ -54,8 +54,10 @@ var app = function() {
                 self.vue.post_list = data.post_list;
                 // Post-processing.
                 self.process_posts();
+                console.log("I got my list");
             }
         );
+        console.log("I fired the get");
     };
 
     self.process_posts = function() {
@@ -68,7 +70,8 @@ var app = function() {
             // I need to use Vue.set here, because I am adding a new watched attribute
             // to an object.  See https://vuejs.org/v2/guide/list.html#Object-Change-Detection-Caveats
             // Did I like it? 
-            Vue.set(e, '_smile', e.like);
+            // If I do e._smile = e.like, then Vue won't see the changes to e._smile . 
+            Vue.set(e, '_smile', e.like); 
             // Who liked it?
             Vue.set(e, '_likers', []);
             // Do I know who liked it? (This could also be a timestamp to limit refresh)

@@ -58,10 +58,10 @@
             
             <!-- Code for likes. -->
             <div class="likers">
-              <span class="show_likers" 
+              <div class="show_likers" 
                     v-on:mouseover="show_likers(post._idx)"
                     v-on:mouseout="hide_likers(post._idx)">
-                <span v-if="is_logged_in" class="toggle_like"
+                <div v-if="is_logged_in" class="toggle_like"
                       v-on:mouseover="like_mouseover(post._idx)"
                       v-on:mouseout="like_mouseout(post._idx)"
                       v-on:click="like_click(post._idx)">
@@ -72,7 +72,7 @@
                   <span v-for="liker in post._likers" class="liker">${liker}</span>
                   <span v-if="post._likers.length > 0">liked it.</span>
                 </span>
-              </span>
+              </div>
             </div>
 
             <!-- Code for start ratings. -->
