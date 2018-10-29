@@ -55,8 +55,8 @@
           <div class="post_title">${post.post_title}</div>
           <div class="post_content">${post.post_content}</div>
           <div class="attributes">
-            <!-- Code for likes and start ratings. -->
-
+            
+            <!-- Code for likes. -->
             <div class="likers">
               <span class="show_likers" 
                     v-on:mouseover="show_likers(post._idx)"
@@ -75,6 +75,7 @@
               </span>
             </div>
 
+            <!-- Code for start ratings. -->
             <div v-if="is_logged_in" class="star_rating">
               <span v-on:mouseout="stars_out(post._idx)">
                 <span v-on:mouseover="stars_over(post._idx, idx)"
