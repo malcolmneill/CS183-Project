@@ -29,18 +29,6 @@ db.define_table('post',
                 Field('post_time', 'datetime', default=get_current_time()),
                 )
 
-# Likes. 
-db.define_table('user_like',
-                Field('user_email'), # The user who flagged
-                Field('post_id', 'reference post'), # The flagged post
-)
-
-# Stars ratings
-db.define_table('user_star',
-                Field('user_email'), # The user who starred
-                Field('post_id', 'reference post'), # The starred post
-                Field('rating', 'integer', default=None) # The star rating.
-                )
 
 # Thumbs
 db.define_table('thumb',
