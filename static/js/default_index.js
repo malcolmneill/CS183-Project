@@ -69,85 +69,14 @@ var app = function() {
         self.vue.post_list.map(function (e) {
             // I need to use Vue.set here, because I am adding a new watched attribute
             // to an object.  See https://vuejs.org/v2/guide/list.html#Object-Change-Detection-Caveats
-            // Did I like it? 
-            // If I do e._smile = e.like, then Vue won't see the changes to e._smile . 
-            Vue.set(e, '_smile', e.like); 
-            // Who liked it?
-            Vue.set(e, '_likers', []);
-            // Do I know who liked it? (This could also be a timestamp to limit refresh)
-            Vue.set(e, '_likers_known', false);
-            // Do I show who liked? 
-            Vue.set(e, '_show_likers', false);
-            // Number of stars to display.
-            Vue.set(e, '_num_stars_display', e.rating);
+            // The code below is commented out, as we don't have smiles any more. 
+            // Replace it with the appropriate code for thumbs. 
+            // // Did I like it? 
+            // // If I do e._smile = e.like, then Vue won't see the changes to e._smile . 
+            // Vue.set(e, '_smile', e.like); 
         });
     };
 
-    // Code for getting and displaying the list of likers. 
-    self.show_likers = function(post_idx) {
-        var p = self.vue.post_list[post_idx];
-        p._show_likers = true;
-        if (!p._likers_known) {
-            $.getJSON(get_likers_url, {post_id: p.id}, function (data) {
-                p._likers = data.likers
-                p._likers_known = true;
-            })
-        }
-    };
-
-    self.hide_likers = function(post_idx) {
-        var p = self.vue.post_list[post_idx];
-        p._show_likers = false;
-    };
-
-    // Smile change code. 
-    self.like_mouseover = function (post_idx) {
-        // When we mouse over something, the face has to assume the opposite
-        // of the current state, to indicate the effect.
-        var p = self.vue.post_list[post_idx];
-        p._smile = !p.like;
-    };
-
-    self.like_click = function (post_idx) {
-        // The like status is toggled; the UI is not changed.
-        var p = self.vue.post_list[post_idx];
-        p.like = !p.like;
-        // We need to post back the change to the server.
-        $.post(set_like_url, {
-            post_id: p.id,
-            like: p.like
-        }); // Nothing to do upon completion.
-    };
-
-    self.like_mouseout = function (post_idx) {
-        // The like and smile status coincide again.
-        var p = self.vue.post_list[post_idx];
-        p._smile = p.like;
-    };
-
-    // Code for star ratings.
-    self.stars_out = function (post_idx) {
-        // Out of the star rating; set number of visible back to rating.
-        var p = self.vue.post_list[post_idx];
-        p._num_stars_display = p.rating;
-    };
-
-    self.stars_over = function(post_idx, star_idx) {
-        // Hovering over a star; we show that as the number of active stars.
-        var p = self.vue.post_list[post_idx];
-        p._num_stars_display = star_idx;
-    };
-
-    self.set_stars = function(post_idx, star_idx) {
-        // The user has set this as the number of stars for the post.
-        var p = self.vue.post_list[post_idx];
-        p.rating = star_idx;
-        // Sends the rating to the server.
-        $.post(set_stars_url, {
-            post_id: p.id,
-            rating: star_idx
-        });
-    };
 
     // Complete as needed.
     self.vue = new Vue({
@@ -157,22 +86,10 @@ var app = function() {
         data: {
             form_title: "",
             form_content: "",
-            post_list: [],
-            star_indices: [1, 2, 3, 4, 5]
+            post_list: []
         },
         methods: {
             add_post: self.add_post,
-            // Likers. 
-            like_mouseover: self.like_mouseover,
-            like_mouseout: self.like_mouseout,
-            like_click: self.like_click,
-            // Show/hide who liked.
-            show_likers: self.show_likers,
-            hide_likers: self.hide_likers,
-            // Star ratings.
-            stars_out: self.stars_out,
-            stars_over: self.stars_over,
-            set_stars: self.set_stars
         }
 
     });

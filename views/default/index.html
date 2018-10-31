@@ -56,34 +56,7 @@
           <div class="post_content">${post.post_content}</div>
           <div class="attributes">
             
-            <!-- Code for likes. -->
-            <div class="likers">
-              <span class="show_likers">
-                <span v-if="is_logged_in" class="toggle_like"
-                      v-on:mouseover="like_mouseover(post._idx); show_likers(post._idx)"
-                      v-on:mouseout="hide_likers(post._idx); like_mouseout(post._idx)"
-                      v-on:click="like_click(post._idx)">
-                  <i v-if="post._smile" class="fa fa-smile-o" v-bind:class="{changed: post._smile === !post.like}"></i>
-                  <i v-if="!post._smile" class="fa fa-meh-o" v-bind:class="{changed: post._smile === !post.like}"></i>
-                </span>
-                <span v-if="post._show_likers" class="likers_list">
-                  <span v-for="liker in post._likers" class="liker">${liker}</span>
-                  <span v-if="post._likers.length > 0">liked it.</span>
-                </span>
-              </span>
-            </div>
-
-            <!-- Code for start ratings. -->
-            <div v-if="is_logged_in" class="star_rating">
-              <span v-on:mouseout="stars_out(post._idx)">
-                <span v-on:mouseover="stars_over(post._idx, idx)"
-                      v-on:click="set_stars(post._idx, idx)"
-                      v-for="idx in star_indices">
-                    <i v-if="idx <= post._num_stars_display" class="fa fa-star"></i>
-                    <i v-if="idx > post._num_stars_display" class="fa fa-star-o"></i>
-                </span>
-              </span>
-            </div>
+            <!-- Code for Thumbs. -->
 
           </div>
         </div>
