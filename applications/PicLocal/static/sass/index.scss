@@ -1,0 +1,23 @@
+body{
+    background: #fff;
+}
+
+header{
+    background: #FAFAFA;
+    border-bottom: 1px solid #ccc;
+    navbar{
+        box-sizing: border-box;
+        width: 24.9%;
+        display: inline-block;
+        margin-left: -3px;
+        text-align: center;
+        padding: 12px;
+        .fa{
+            color: 111;
+            font-size: 25px;
+            &.fa-heart-o:hover{
+                color: red;
+            }
+        }
+    }
+}

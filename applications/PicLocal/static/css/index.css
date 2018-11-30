@@ -1,0 +1,28 @@
+/* line 1, ../sass/index.scss */
+body {
+  background: #fff;
+}
+
+/* line 5, ../sass/index.scss */
+header {
+  background: #FAFAFA;
+  border-bottom: 1px solid #ccc;
+}
+/* line 8, ../sass/index.scss */
+header navbar {
+  box-sizing: border-box;
+  width: 24.9%;
+  display: inline-block;
+  margin-left: -3px;
+  text-align: center;
+  padding: 12px;
+}
+/* line 15, ../sass/index.scss */
+header navbar .fa {
+  color: 111;
+  font-size: 25px;
+}
+/* line 18, ../sass/index.scss */
+header navbar .fa.fa-heart-o:hover {
+  color: red;
+}
