@@ -1,0 +1,41 @@
+{{extend 'layout.html'}}
+
+{{block header}}
+<div class="jumbotron jumbotron-fluid background" style="background-color: #333; color:white; padding:30px;word-wrap:break-word;">
+  <div class="container center">
+    <h1 class="display-5">/{{=request.application}}/{{=request.controller}}/{{=request.function}}</h1>
+  </div>
+</div>
+{{end}}
+
+
+<head>
+  <title> PicLocal </title>
+  <link rel="stylesheet" href="/static/css/main.css">
+  <link rel="stylesheet" href="/static/sass/main.scss">
+  <link rel="stylesheet" href="{{=URL('static','css/main.css')}}"/>
+  <link rel="stylesheet" href="{{=URL('static','sass/main.scss')}}"/>
+</head>
+
+<body>
+  <header>
+    <navbar>
+    <a href="home.html"> <i class="fa fa-home" aria-hidden="true"></i></a>
+    </navbar>
+    <navbar>
+    <a href="search.html"> <i class="fa fa-search" aria-hidden="true"></i></a>
+  </navbar>
+  <navbar>
+    <a href="likes.html"> <i class="fa fa-heart-o" aria-hidden="true"></i></a>
+  </navbar>
+  <navbar>
+    <a href="profile.html"> <i class="fa fa-user-o" aria-hidden="true"></i></a>
+  </navbar>
+  </header>
+
+  <section class ="container">
+    <div class="card">
+
+    </div>
+  </section>
+</body>

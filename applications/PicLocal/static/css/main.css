@@ -1,0 +1,24 @@
+
+body{
+    background: #FAFAFA;
+    border-bottom: 1px solid #ccc; 
+}
+
+navBar{
+    box-sizing: border-box;
+    width: 24%;
+    display:inline-block;
+    margin-left: -3px;
+    text-align: center;
+    padding: 12px;
+    background:lightgray;
+}
+
+fa{
+    color: 111;
+    font-size: 25px;
+}
+
+container{
+    background: red;
+}
