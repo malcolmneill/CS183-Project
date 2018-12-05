@@ -1,1 +1,5 @@
 [2018-11-29 17:30:09] START
+[2018-12-04 18:00:47] CREATE default/profile.html: 0
+[2018-12-04 18:01:12] EDIT PicLocal/views/default/profile.html: 159
+[2018-12-04 18:01:27] CREATE css/profile.css: 0
+[2018-12-04 18:01:42] EDIT PicLocal/static/css/profile.css: 309

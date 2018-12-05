@@ -56,3 +56,8 @@ def download():
     http://..../[app]/default/download/[filename]
     """
     return response.download(request, db)
+
+# profile
+def profile():
+    return dict(form=auth())
+
