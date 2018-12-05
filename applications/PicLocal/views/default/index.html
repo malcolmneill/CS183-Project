@@ -4,6 +4,7 @@
   <!--<link rel="stylesheet" href="{{=URL('static','css/main.css')}}"/>-->
   <link rel="stylesheet" href="{{=URL('static','css/index.css')}}"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> 
 </head>
 
 <body>
@@ -24,6 +25,57 @@
 
   <div class ="container">
     <div class="card">
+        <div class="card-header">
+          <div class="profile-img">
+
+          </div>
+            <div class ="profile-info">
+              <div class="name">username</div>
+              <div class ="location">Santa Cruz, California</div>
+            </div>
+
+            <div class="time">
+              1hr
+            </div>
+        </div>
+
+        <div class="content">
+          <img src="{{=URL('static','images/nature.png')}}" />
+        </div>
+
+        <div class="card-footer">
+          <div class="likes">
+            21 likes
+          </div>
+
+          <div class="description">
+            <p>
+              <span class="username">username</span> Caption goes here.
+            </p>
+          </div>
+          <div class="comments">
+              <p>
+                  <span class="username">commenter1</span> Comment 1
+              </p>
+              <p>
+                  <span class="username">commenter2</span> Comment 2
+              </p>
+          </div>
+          <hr />
+          <form>
+            <div class="heart">
+                <i class="fa fa-heart-o" aria-hidden="true"></i>
+            </div>
+
+            <div class="add-comment">
+              <input type="text" placeholder="Add comment."/>
+            </div>
+
+            <div class="options">
+                <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+            </div>
+          </form>
+        </div>
     </div>
   </div>
 

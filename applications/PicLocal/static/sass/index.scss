@@ -1,3 +1,7 @@
+html{
+    font-family: 'Open Sans', sans-serif;
+}
+
 body{
     background: #fff;
 }
@@ -26,7 +30,7 @@ header{
         }
 
         .fa{
-            color: 111;
+            color: #111;
             font-size: 25px;
         }
     }
@@ -44,8 +48,121 @@ header{
         background: #fff;
         margin: 0 auto;
         width: 500px;
-        height: 500px;
         border: 1px solid #ccc;
-        border-radius: 3px;
+        border-radius: 2px;
+        overflow:auto;
+
+        .card-header{
+
+            padding: 15px;
+
+            .profile-img{
+                display: inline-block;
+                background: red;
+                height: 30px;
+                width: 30px;
+                border-radius: 50%;
+                position: relative;
+                top: 3px;
+                margin-right: 5px;
+            }
+            .profile-info{
+                display: inline-block;
+
+                .name{
+                    font-size: 14px;
+                    color: #111;
+                    font-weight: 700;
+                }
+
+                .location{
+                    font-size: 12px;
+                    color: #111;
+                    
+                }
+            }
+            .time{
+                display: inline-block;
+                float: right;
+                font-size: 10px;
+                top: 10px;
+                position: relative;
+            }
+        }
+
+        .content{
+            img{
+                width: 100%;
+            }
+        }
+
+        .card-footer{
+            padding: 15px;
+            box-sizing: border-box;
+            .likes{
+                color: #111;
+                font-size: 12px;
+                padding-bottom: 10px;
+            }
+            .description{
+                p{
+                    margin: 0;
+                    font-size: 14px;
+                    padding: 0 0 5px 0;
+                    .username{
+                        font-weight: 700;
+                    }
+                }
+            }
+            .comments{
+                p{
+                    margin: 0;
+                    font-size: 14px;
+                    padding: 0 0 5px 0;
+
+                    .username{
+                        font-weight: 700;
+                    }
+                }
+            }
+            hr{
+                padding: 0;
+            }
+            form{
+                padding-top: 15px;
+                .fa{
+                    font-size: 24px;
+                }
+                .heart{
+                    width: 7%;
+                    color: red;
+                    display: inline-block;
+                    .fa{
+                        position: relative;
+                        top: 3px;
+                    }
+                }
+                .add-comment{
+                    width: 80%;
+                    display: inline-block;
+                    input{
+                        width: 100%;
+                        padding: 5px;
+                        font-weight: 16px;
+                        border: 0px solid #fff;
+                    }
+                }
+                .options{
+                    width: 7%;
+                    display: inline-block;
+                    float: right;
+                    .fa{
+                        position:relative;
+                        top: 3px;
+                    }
+                }
+            }
+
+        }
     }
 }

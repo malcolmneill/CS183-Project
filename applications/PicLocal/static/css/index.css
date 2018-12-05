@@ -1,9 +1,14 @@
 /* line 1, ../sass/index.scss */
+html {
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* line 5, ../sass/index.scss */
 body {
   background: #fff;
 }
 
-/* line 5, ../sass/index.scss */
+/* line 9, ../sass/index.scss */
 header {
   background: #FAFAFA;
   border-bottom: 1px solid #ccc;
@@ -13,7 +18,7 @@ header {
   width: 100%;
   z-index: 20;
 }
-/* line 14, ../sass/index.scss */
+/* line 18, ../sass/index.scss */
 header a {
   box-sizing: border-box;
   width: 24.9%;
@@ -22,17 +27,17 @@ header a {
   text-align: center;
   padding: 12px;
 }
-/* line 23, ../sass/index.scss */
+/* line 27, ../sass/index.scss */
 header a:hover .fa-heart-o {
   color: red;
 }
-/* line 28, ../sass/index.scss */
+/* line 32, ../sass/index.scss */
 header a .fa {
-  color: 111;
+  color: #111;
   font-size: 25px;
 }
 
-/* line 35, ../sass/index.scss */
+/* line 39, ../sass/index.scss */
 .container {
   background: #FAFAFA;
   padding-top: 50px;
@@ -41,12 +46,131 @@ header a .fa {
   top: 50px;
   bottom: 0;
 }
-/* line 43, ../sass/index.scss */
+/* line 47, ../sass/index.scss */
 .container .card {
   background: #fff;
   margin: 0 auto;
   width: 500px;
-  height: 500px;
   border: 1px solid #ccc;
-  border-radius: 3px;
+  border-radius: 2px;
+  overflow: auto;
+}
+/* line 55, ../sass/index.scss */
+.container .card .card-header {
+  padding: 15px;
+}
+/* line 59, ../sass/index.scss */
+.container .card .card-header .profile-img {
+  display: inline-block;
+  background: red;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  position: relative;
+  top: 3px;
+  margin-right: 5px;
+}
+/* line 69, ../sass/index.scss */
+.container .card .card-header .profile-info {
+  display: inline-block;
+}
+/* line 72, ../sass/index.scss */
+.container .card .card-header .profile-info .name {
+  font-size: 14px;
+  color: #111;
+  font-weight: 700;
+}
+/* line 78, ../sass/index.scss */
+.container .card .card-header .profile-info .location {
+  font-size: 12px;
+  color: #111;
+}
+/* line 84, ../sass/index.scss */
+.container .card .card-header .time {
+  display: inline-block;
+  float: right;
+  font-size: 10px;
+  top: 10px;
+  position: relative;
+}
+/* line 94, ../sass/index.scss */
+.container .card .content img {
+  width: 100%;
+}
+/* line 99, ../sass/index.scss */
+.container .card .card-footer {
+  padding: 15px;
+  box-sizing: border-box;
+}
+/* line 102, ../sass/index.scss */
+.container .card .card-footer .likes {
+  color: #111;
+  font-size: 12px;
+  padding-bottom: 10px;
+}
+/* line 108, ../sass/index.scss */
+.container .card .card-footer .description p {
+  margin: 0;
+  font-size: 14px;
+  padding: 0 0 5px 0;
+}
+/* line 112, ../sass/index.scss */
+.container .card .card-footer .description p .username {
+  font-weight: 700;
+}
+/* line 118, ../sass/index.scss */
+.container .card .card-footer .comments p {
+  margin: 0;
+  font-size: 14px;
+  padding: 0 0 5px 0;
+}
+/* line 123, ../sass/index.scss */
+.container .card .card-footer .comments p .username {
+  font-weight: 700;
+}
+/* line 128, ../sass/index.scss */
+.container .card .card-footer hr {
+  padding: 0;
+}
+/* line 131, ../sass/index.scss */
+.container .card .card-footer form {
+  padding-top: 15px;
+}
+/* line 133, ../sass/index.scss */
+.container .card .card-footer form .fa {
+  font-size: 24px;
+}
+/* line 136, ../sass/index.scss */
+.container .card .card-footer form .heart {
+  width: 7%;
+  color: red;
+  display: inline-block;
+}
+/* line 140, ../sass/index.scss */
+.container .card .card-footer form .heart .fa {
+  position: relative;
+  top: 3px;
+}
+/* line 145, ../sass/index.scss */
+.container .card .card-footer form .add-comment {
+  width: 80%;
+  display: inline-block;
+}
+/* line 148, ../sass/index.scss */
+.container .card .card-footer form .add-comment input {
+  width: 100%;
+  padding: 5px;
+  font-weight: 16px;
+  border: 0px solid #fff;
+}
+/* line 155, ../sass/index.scss */
+.container .card .card-footer form .options {
+  width: 7%;
+  display: inline-block;
+  float: right;
+}
+/* line 159, ../sass/index.scss */
+.container .card .card-footer form .options .fa {
+  position: relative;
+  top: 3px;
 }
