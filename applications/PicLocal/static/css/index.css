@@ -7,9 +7,14 @@ body {
 header {
   background: #FAFAFA;
   border-bottom: 1px solid #ccc;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 20;
 }
-/* line 8, ../sass/index.scss */
-header navbar {
+/* line 14, ../sass/index.scss */
+header a {
   box-sizing: border-box;
   width: 24.9%;
   display: inline-block;
@@ -17,12 +22,31 @@ header navbar {
   text-align: center;
   padding: 12px;
 }
-/* line 15, ../sass/index.scss */
-header navbar .fa {
+/* line 23, ../sass/index.scss */
+header a:hover .fa-heart-o {
+  color: red;
+}
+/* line 28, ../sass/index.scss */
+header a .fa {
   color: 111;
   font-size: 25px;
 }
-/* line 18, ../sass/index.scss */
-header navbar .fa.fa-heart-o:hover {
-  color: red;
+
+/* line 35, ../sass/index.scss */
+.container {
+  background: #FAFAFA;
+  padding-top: 50px;
+  position: absolute;
+  width: 100%;
+  top: 50px;
+  bottom: 0;
+}
+/* line 43, ../sass/index.scss */
+.container .card {
+  background: #fff;
+  margin: 0 auto;
+  width: 500px;
+  height: 500px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
 }
