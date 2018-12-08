@@ -53,3 +53,28 @@ CREATE TABLE "auth_cas"(
     "renew" CHAR(1)
 );
 success!
+timestamp: 2018-12-07T16:21:54.240000
+CREATE TABLE "post"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "post_author" CHAR(512),
+    "post_title" CHAR(512),
+    "post_content" TEXT,
+    "post_time" TIMESTAMP
+);
+success!
+timestamp: 2018-12-07T16:21:54.262000
+CREATE TABLE "thumb"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "user_email" CHAR(512),
+    "post_id" INTEGER REFERENCES "post" ("id") ON DELETE CASCADE  ,
+    "thumb_state" CHAR(512)
+);
+success!
+timestamp: 2018-12-07T16:21:54.282000
+CREATE TABLE "comments"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "post_id" INTEGER REFERENCES "post" ("id") ON DELETE CASCADE  ,
+    "body" TEXT,
+    "editingComment" CHAR(1)
+);
+success!
