@@ -6,6 +6,8 @@ def add_post():
     post_id = db.post.insert(
         post_title=request.vars.post_title,
         post_content=request.vars.post_content,
+        post_long=request.vars.post_long,
+        post_lat=request.vars.post_lat,
     )
     # We return the id of the new post, so we can insert it along all the others.
     return response.json(dict(post_id=post_id))
@@ -22,6 +24,8 @@ def get_post_list():
                 post_title=row.post_title,
                 post_content=row.post_content,
                 post_author=row.post_author,
+                post_long=row.post_long,
+                post_lat=row.post_lat,
                 thumb = None,
             ))
     else:
@@ -37,6 +41,8 @@ def get_post_list():
                 post_title=row.post.post_title,
                 post_content=row.post.post_content,
                 post_author=row.post.post_author,
+                post_long=row.post.post_long,
+                post_lat=row.post.post_lat,
                 thumb = None if row.thumb.id is None else row.thumb.thumb_state,
             ))
     # For homogeneity, we always return a dictionary.

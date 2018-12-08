@@ -65,6 +65,17 @@
             <textarea v-model="form_content" placeholder="Enter the content of your post"></textarea>
           </div>
         </div>
+        <div class="container form_row">
+          <div class="label quarter">
+            Location:
+          </div>
+          <div class="form half">
+            Latitude: <textarea v-model="form_lat" placeholder=""></textarea>
+          </div>
+          <div class="form half">
+            Longitude: <textarea v-model="form_long" placeholder=""></textarea>
+          </div>
+        </div>
         <div class="container form_row"><div class="quarter"></div>
           <div class="threequarters">
             <div class="submit">
@@ -143,7 +154,10 @@
                 </div>
                   <div class ="profile-info">
                     <div class="name">${post.post_author}</div>
-                    <div class ="location">Santa Cruz, California</div>  <!-- Change this to ${post.post_location?}-->
+                    <span>
+                      <div class="location">Santa Cruz, California</div>  <!-- Change this to ${post.post_location?}-->
+                      <div class="title">${post.post_title}</div>
+                    </span>
                   </div>
       
                   <div class="time">

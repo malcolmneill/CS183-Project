@@ -1,4 +1,5 @@
 // This is the js for the default/index.html view.
+const None = undefined;
 var app = function() {
 
     var self = {};
@@ -26,16 +27,50 @@ var app = function() {
         });
     };
 
+    self.getGeo = function(){
+        
+        if(navigator.geolocation){
+            console.log("geo")
+            navigator.geolocation.getCurrentPosition(function(position){
+                console.log("in getCoords");
+                self.vue.form_lat = position.coords.latitude;
+                self.vue.form_long = position.coords.longitude;
+                self.get_posts();
+            });
+        }else{
+            console.log("not supported by browser");
+        }
+    }
+
+    self.inRange = function(post){
+        var R = 6371;
+        
+        var x1 = post.post_long;
+        var x2 = self.vue.form_long;
+        var y1 = post.post_lat;
+        var y2 = self.vue.form_lat;
+        var dLat = (y2-y1) * (Math.PI/180);
+        var dLon = (x2-x1) * (Math.PI/180);
+        var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(y1* (Math.PI/180)) * Math.cos(y2 * (Math.PI/180)) * Math.sin(dLon/2) * Math.sin(dLon/2);
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+        var d = R * c; // Distance in km
+        return d; 
+    }
+
     self.add_post = function () {
         // We disable the button, to prevent double submission.
         $.web2py.disableElement($("#add-post"));
         var sent_title = self.vue.form_title; // Makes a copy 
         var sent_content = self.vue.form_content; // 
+        var sent_long = self.vue.form_long;
+        var sent_lat = self.vue.form_lat;
         $.post(add_post_url,
             // Data we are sending.
             {
                 post_title: self.vue.form_title,
-                post_content: self.vue.form_content
+                post_content: self.vue.form_content,
+                post_long: self.vue.form_long,
+                post_lat: self.vue.form_lat
             },
             // What do we do when the post succeeds?
             function (data) {
@@ -48,7 +83,9 @@ var app = function() {
                 var new_post = {
                     id: data.post_id,
                     post_title: sent_title,
-                    post_content: sent_content
+                    post_content: sent_content,
+                    post_long: sent_long,
+                    post_lat: sent_lat
                 };
                 self.vue.post_list.unshift(new_post);
                 // We re-enumerate the array.
@@ -96,8 +133,17 @@ var app = function() {
             function(data) {
                 // I am assuming here that the server gives me a nice list
                 // of posts, all ready for display.
-                self.vue.post_list = data.post_list;
-                // Post-processing.
+                console.log(data.post_list.length);
+                var tempPosts = [];
+                var j = 0;
+                for(var i = 0; i < data.post_list.length; i++ ){
+                    if(self.inRange(data.post_list[i]) <= 10){
+                        tempPosts[i - j] = data.post_list[i];
+                    } else {
+                        j++;
+                    }
+                }
+                self.vue.post_list = tempPosts;
                 self.process_posts();
                 console.log("I got my list");
             }
@@ -170,6 +216,8 @@ var app = function() {
         data: {
             form_title: "",
             form_content: "",
+            form_lat: None,
+            form_long: None,
             post_list: []
         },
         methods: {
@@ -192,7 +240,7 @@ var app = function() {
     }
 
     // Gets the posts.
-    self.get_posts();
+    self.getGeo();
 
     return self;
 };
