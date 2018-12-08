@@ -26,6 +26,8 @@ db.define_table('post',
                 Field('post_author', default=get_user_email()),
                 Field('post_title'),
                 Field('post_content', 'text'),
+                Field('post_long'),
+                Field('post_lat'),
                 Field('post_time', 'datetime', default=get_current_time()),
                 )
 
@@ -35,4 +37,11 @@ db.define_table('thumb',
                 Field('user_email'), # The user who thumbed, easier to just write the email here.
                 Field('post_id', 'reference post'), # The thumbed post
                 Field('thumb_state'), # This can be 'u' for up or 'd' for down, or None for... None.
+                )
+
+db.define_table('comments',
+                Field('author'),
+                Field('post_id','reference post'),
+                Field('body'),
+                Field('editingComment'),
                 )

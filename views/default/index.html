@@ -6,21 +6,27 @@
     var add_post_url = "{{=URL('api', 'add_post', user_signature=True)}}";
     var get_post_list_url = "{{=URL('api', 'get_post_list')}}";
     // Like callbacks.
-    var set_like_url = "{{=URL('api', 'set_like', user_signature=True)}}";
-    var get_likers_url = "{{=URL('api', 'get_likers')}}"
     // Stars.
-    var set_stars_url = "{{=URL('api', 'set_stars', user_signature=True)}}";
-    var is_logged_in = {{='false' if auth.user is None else 'true'}};
+    var set_thumb_url = "{{=URL('api', 'set_thumb', user_signature=True)}}";
+    var is_logged_in = "{{='false' if auth.user is None else 'true'}}";
+    var get_thumb_count_url = "{{=URL('api', 'get_thumb_count_on_post')}}";
+    var edit_content_url ="{{=URL('api', 'edit_content', user_signature=True)}}";
+    var get_comments_url = "{{=URL('api', 'get_comments')}}"
+    var edit_comment_url = "{{=URL('api', 'edit_comment', user_signature=True)}}";
+    
+    var insert_comments_url = "{{=URL('api', 'insert_comment')}}"
 </script>
 {{end}}
 
 <div class="main_content">
 
-    <div id="vue-div" class="display:none">
+    <div id="vue-div" >
       <!-- Your code goes here.  Remember to call $("#vue-div").show() once you get the data for the first time. -->
-
+      
       <!-- First, let's add a form to insert blog posts. -->
-      <div id="add_post" style="display:none">
+    
+      <button id="form_appear" v-if="!showForm" v-on:click="toggle_form()">Add Post</button>
+      <div  id="add_post" v-if="showForm">
         <div class="container form_row">
           <div class="label quarter">
             Title:
@@ -37,15 +43,28 @@
             <textarea v-model="form_content" placeholder="Enter the content of your post"></textarea>
           </div>
         </div>
+        <div class="container form_row">
+          <div class="label quarter">
+            Location:
+          </div>
+          <div class="form half">
+            Latitude: <textarea v-model="form_lat" placeholder=""></textarea>
+          </div>
+          <div class="form half">
+            Longitude: <textarea v-model="form_long" placeholder=""></textarea>
+          </div>
+        </div>
         <div class="container form_row"><div class="quarter"></div>
           <div class="threequarters">
             <div class="submit">
-              <button id="add-post" v-on:click="add_post">Submit</button>
+              <button id="add-post" v-on:click="add_post(); toggle_form()">Submit</button>
+              <button v-on:click="toggle_form()"> Cancel</button>
             </div>
           </div>
         </div>
       </div>
-
+      
+      
       <!-- Message in case there are no posts. -->
       <div v-if="post_list.length === 0">There are no posts.</div>
 
@@ -53,17 +72,48 @@
       <div id="post_list">
         <div class="post_div" v-for="post in post_list">
           <div class="post_title">${post.post_title}</div>
-          <div class="post_content">${post.post_content}</div>
-          <div class="attributes">
-            
-            <!-- Code for Thumbs. -->
-
+          <div v-if="!post._editing" class="post_content">${post.post_content}</div>
+          <div v-if="post._editing">
+            <textarea v-model="post.post_content" ></textarea>
+            <button v-on:click="saveEdit(post._idx); toggle_editing(post._idx)">Submit</button>
           </div>
+          <div class="attributes" v-if="is_logged_in">
+          <span v-on:mouseover="thumb_mouseover(post._idx, 'u')" v-on:mouseout="thumb_mouseout(post._idx)">
+          <i v-if="post._thumb_state == 'u'" v-on:click="thumb_click(post._idx,'u')"  class="fa thumbshover fa-thumbs-up"></i>
+          <i v-if="post._thumb_state !='u'" v-on:click="thumb_click(post._idx,'u')" class="fa fa-thumbs-o-up"></i>
+          </span>
+        <span v-on:mouseover="thumb_mouseover(post._idx, 'd')" v-on:mouseout="thumb_mouseout(post._idx)">
+          <i v-if="post._thumb_state !='d'" v-on:click="thumb_click(post._idx,'d')" class="fa fa-thumbs-o-down"></i>
+          <i v-if="post._thumb_state =='d'" v-on:click="thumb_click(post._idx,'d')" class="fa thumbshover fa-thumbs-down"></i>
+        </span>
+        <span class="fa fa-pencil-square-o" v-on:click="toggle_editing(post._idx)"></span>
+        Likes: ${post.thumb_count}
+          </div>
+        <button v-if="!post._sReply" v-on:click="showComments(post._idx)">Show Replies</button>
+        <div v-if="post._sReply">
+          <button  v-on:click="hideComments(post._idx)">Hide Replies</button>
+          <button  v-if="!post._addingReply" v-on:click="toggle_commenting(post._idx)">Add Reply</button>
+          <div v-if="post._addingReply">
+            <textarea v-model="post.newComment"></textarea>
+            <button v-on:click="saveComment(post._idx); toggle_commenting(post._idx)">Submit</button>
+          </div>
+          <div v-if="post.comments.length > 0" v-for="(comment, index) in post.comments" class="comment">
+            ${ comment.body }
+            <button v-if="!comment.editingComment" v-on:click="toggleEditingComment(post._idx, index)">Edit</button>
+            <div v-if="comment.editingComment">
+              <textarea v-model="comment.body"></textarea>
+              <button v-on:click="saveCommentEdit(post._idx, index); toggleEditingComment(post._idx, index)">Submit</button>
+            </div>
+          </div>
+          <div v-if="post.comments.length <= 0">
+            There are no replies.
+          </div>
+        </div>
+
         </div>
       </div>
 
     </div>
-
 </div>
 
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>
