@@ -22,6 +22,7 @@ def get_post_list():
                 post_title=row.post_title,
                 post_content=row.post_content,
                 post_author=row.post_author,
+                post_date =row.post_date,
                 thumb = None,
             ))
     else:
@@ -37,6 +38,7 @@ def get_post_list():
                 post_title=row.post.post_title,
                 post_content=row.post.post_content,
                 post_author=row.post.post_author,
+                post_date=row.post.post_date,
                 thumb = None if row.thumb.id is None else row.thumb.thumb_state,
             ))
     # For homogeneity, we always return a dictionary.
@@ -50,7 +52,7 @@ def insert_comment():
         body=request.vars.body,
         editingComment=request.vars.editingComment,
     )
-    # JavaScript needs the id of the movie that was just created so that it can pass it to the clickThumbs function
+    # JavaScript needs the id of the comment that was just created so that it can pass it to the clickThumbs function
     return response.json(dict(new_comment_id=new_comment_id))
 
 def get_comments():

@@ -24,7 +24,9 @@ db.define_table('post',
                 Field('post_title'),
                 Field('post_content', 'text'),
                 Field('post_time', 'datetime', default=get_current_time()),
+                Field('post_date', default=get_current_time().strftime('%m/%d/%Y')),
                 )
+
 
 
 # Thumbs
@@ -39,4 +41,5 @@ db.define_table('comments',
                 Field('post_id', "reference post"),
                 Field('body', 'text'),
                 Field('editingComment', 'boolean'),
+                Field('comment_author', default=get_user_email()),
                 )
