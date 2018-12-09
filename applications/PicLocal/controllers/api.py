@@ -8,6 +8,7 @@ def add_post():
         post_content=request.vars.post_content,
         post_long=request.vars.post_long,
         post_lat=request.vars.post_lat,
+        post_image=request.vars.post_image,
     )
     # We return the id of the new post, so we can insert it along all the others.
     return response.json(dict(post_id=post_id))
@@ -27,6 +28,7 @@ def get_post_list():
                 post_date =row.post_date,
                 post_long=row.post_long,
                 post_lat=row.post_lat,
+                post_image=row.post_image,
                 thumb = None,
             ))
     else:
@@ -45,6 +47,7 @@ def get_post_list():
                 post_date=row.post.post_date,
                 post_long=row.post.post_long,
                 post_lat=row.post.post_lat,
+                post_image=row.post.post_image,
                 thumb = None if row.thumb.id is None else row.thumb.thumb_state,
             ))
     # For homogeneity, we always return a dictionary.
@@ -80,3 +83,26 @@ def edit_comment():
         body = request.vars.body
     )
     return "done"
+
+
+def post_image():
+    image_str = request.vars.image_url
+    blog_post_id = int(request.vars.blog_post_id)
+    # Normally, here I would have to check that the user can store the
+    # image to the blog post, etc etc.
+    image_id = db.my_images.update_or_insert(
+        (db.my_images.blog_post_id == blog_post_id),
+        blog_post_id = blog_post_id,
+        image_str = image_str
+    )
+    return response.json(dict(image_id=image_id))
+
+@auth.requires_signature()
+def get_image():
+    blog_post_id = int(request.vars.blog_post_id)
+    r = db(db.my_images.blog_post_id == blog_post_id).select().first()
+    image_str = None
+    if r is not None:
+        image_str = r.image_str
+    return response.json(dict(image_str = image_str))
+

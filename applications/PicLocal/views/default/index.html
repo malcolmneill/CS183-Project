@@ -19,6 +19,9 @@
     var insertCommentsUrl = "{{=URL('api', 'insert_comment', user_signature=True)}}";
     var edit_post_url = "{{=URL('api', 'edit_post', user_signature=True)}}";
     var edit_comment_url = "{{=URL('api', 'edit_comment', user_signature=True)}}";
+    // Images.
+    var image_post_url = "{{=URL('api', 'post_image')}}";
+    var image_get_url = "{{=URL('api', 'get_image')}}";
     // Stars.
     var set_stars_url = "{{=URL('api', 'set_stars', user_signature=True)}}";
     var is_logged_in = "{{='false' if auth.user is None else 'true'}}";
@@ -74,6 +77,12 @@
             Longitude: <textarea v-model="form_long" placeholder=""></textarea>
           </div>
         </div>
+        <div class="container form_row">
+            <div id="uploader_div">
+                <!--Upload an image file: <input id="file_input" type="file" v-on:change="upload_file($event, 1)" accept="image/jpeg">-->
+                Upload an image file: <input id="file_input" type="file" v-on:change="update_file($event)" accept="image/jpeg">
+              </div>
+        </div>
         <div class="container form_row"><div class="quarter"></div>
           <div class="threequarters">
             <div class="submit">
@@ -84,6 +93,39 @@
       <!-- Message in case there are no posts. -->
       <div v-if="post_list.length === 0">There are no posts.</div>
     </div>
+
+    <div class="container2 padded">
+
+        <div class="container2">
+          <div class="half compressible">
+            <img v-bind:src="img_url" />
+          </div>
+        </div>
+  
+        <div class="image_space threequarters">
+          <!-- Left part of the page -->
+          <div v-if="self_page">
+            <!-- Code to upload files, with control buttons -->
+            <div id="uploader_div" style="display:none">
+              <!--Upload an image file: <input id="file_input" type="file" v-on:change="upload_file($event, 1)" accept="image/jpeg">-->
+              Upload an image file: <input id="file_input" type="file" accept="image/jpeg">
+            </div>
+  
+            <button v-if="!is_uploading" v-on:click="open_uploader"><i class="fa fa-plus"></i></button>
+            <button v-if="is_uploading"  v-on:click="close_uploader">Cancel</button>
+          </div>
+  
+          <div class="image_container">
+            <!-- Put here the code to display the images -->
+  
+            <ul class="container">
+              <!-- The following is an example
+              <li v-for="image in user_images" class="card lifted padded quarter">
+                <img v-bind:src="image.image_src" height="200px" width="200px" class="padded"/>
+              </li> -->
+            </ul>
+          </div>
+        </div>
     
     <div class="container">
       <!-- We display the posts. -->
@@ -103,8 +145,14 @@
           </div>
 
             <div class="content">
-              <img src="{{=URL('static','images/nature.png')}}" />  <!-- Change this to {$post.post_image} once we have image posting done?-->
-            </div>
+              <!-- <img src="{{=URL('static','images/nature.png')}}" />  <!-- Change this to {$post.post_image} once we have image posting done?-->    
+              <!--<img v-bind:src="post.post_image" />-->
+              <img
+              v-if="post.post_image"
+              v-bind:src="post.post_image"
+              width="100%"
+              height="120px"
+            />
         
             <div class="card-footer">
               <div class="likes">
