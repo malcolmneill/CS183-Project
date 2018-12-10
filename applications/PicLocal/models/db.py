@@ -93,7 +93,7 @@ auth = Auth(db, host_names=configuration.get('host.names'))
 # -------------------------------------------------------------------------
 auth.settings.extra_fields['auth_user'] = [
   Field('bio'),
-  Field('profile_picture')]
+  Field('profile_picture', 'upload')]
 
 auth.define_tables(username=False, signature=False)
 
@@ -113,6 +113,7 @@ mail.settings.ssl = configuration.get('smtp.ssl') or False
 auth.settings.registration_requires_verification = False
 auth.settings.registration_requires_approval = False
 auth.settings.reset_password_requires_verification = True
+auth.settings.profile_next = URL('profile')
 
 # -------------------------------------------------------------------------  
 # read more at http://dev.w3.org/html5/markup/meta.name.html               

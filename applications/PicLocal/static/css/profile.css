@@ -107,10 +107,16 @@ img {
     justify-content: center;
     align-items: center;
     margin-right: 3rem;
-}
+  }
 
 .profile-image img {
     border-radius: 50%;
+    float: left;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .profile-user-settings,
