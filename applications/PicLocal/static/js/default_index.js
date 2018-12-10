@@ -24,6 +24,8 @@ var app = function() {
             Vue.set(e, 'newComment', '');
             Vue.set(e, 'editingPost', false);
             Vue.set(e, 'editingComment', false);
+            Vue.set(e, '_thumb_state', e.thumb);
+            Vue.set(e, '_thumb_count', e.thumb_count);
         });
     };
 
@@ -205,6 +207,70 @@ var app = function() {
         });
     }
 
+    self.thumb_mouseover = function (post_idx, newThumbState) {
+        // When we mouse over something, the face has to assume the opposite
+        // of the current state, to indicate the effect.
+        var p = self.vue.post_list[post_idx];
+        p._thumb_state = newThumbState;
+    };
+
+    self.thumb_mouseout = function (post_idx) {
+        // The like and smile status coincide again.
+        var p = self.vue.post_list[post_idx];
+        p._thumb_state = p.thumb;
+    };
+
+    self.updateThumbCountOnScreen = function(idx, id) {
+        var url = get_thumb_count_url;
+        url += '?post_id=' +id; 
+        $.post(url, function(response) {
+            self.vue.post_list[idx].thumb_count = response.thumb_count;
+            console.log(response)
+        });
+    };
+
+    self.set_thumbclick = function(post_idx, newThumbState) {
+        // The user has set this as the number of stars for the post.
+        var p = self.vue.post_list[post_idx];
+        var jsThumbValue = newThumbState;
+        var pythonThumbValue = newThumbState;
+        console.log(newThumbState);
+        if(p.thumb == newThumbState){
+            jsThumbValue = null;
+            pythonThumbValue = None;
+            p._thumb_state = None;
+        }
+        console.log(jsThumbValue)
+        console.log(pythonThumbValue)
+
+        p._thumb_state = jsThumbValue;
+        p._thumb_count = p.thumb_count;
+        p.thumb = jsThumbValue;
+        $.post(set_thumb_url, {id: p.id, thumb_state: pythonThumbValue}, function(response){
+            console.log("thumb set");
+            self.updateThumbCountOnScreen(post_idx, p.id);
+        });
+    };
+
+    self.toggle_form = function() {
+        self.vue.showForm = !self.vue.showForm;
+        console.log(self.vue.showForm);
+    };
+
+    self.isLoggedIn = function(){
+        $.get(is_logged_in, function(response){
+            if(response == 0){
+                self.vue.loggedIn = false;
+            } else {
+                self.vue.loggedIn = true;
+            }
+            console.log("is logged")
+            console.log(response);
+            console.log("vue logged val")
+            console.log(self.vue.loggedIn)
+        });
+    }
+
     var toggleEditingPost = function(idx) {
         self.vue.post_list[idx].editingPost = !self.vue.post_list[idx].editingPost;
     };
@@ -306,6 +372,8 @@ var app = function() {
             form_lat: None,
             form_long: None,
             post_list: [],
+            showForm: false,
+            loggedIn: false,
             is_uploading: false,
             img_url: null,
             received_image: null,
@@ -314,6 +382,7 @@ var app = function() {
             file_input: null
         },
         methods: {
+            toggle_form: self.toggle_form,
             add_post: self.add_post,
             edit_post: self.edit_post,
             edit_comment: self.edit_comment,
@@ -323,6 +392,10 @@ var app = function() {
             saveComment: saveComment,
             toggleEditingPost: toggleEditingPost,
             toggleEditingComment: toggleEditingComment,
+            thumb_mouseout: self.thumb_mouseout,
+            thumb_mouseover: self.thumb_mouseover,
+            thumb_click: self.set_thumbclick,
+            isLoggedIn: self.isLoggedIn,
             open_uploader: self.open_uploader,
             close_uploader: self.close_uploader,
             upload_file: self.upload_file,
@@ -333,11 +406,10 @@ var app = function() {
     });
 
     // If we are logged in, shows the form to add posts.
-    if (is_logged_in) {
-        $("#add_post").show();
-    }
-
+    
+    
     // Gets the posts.
+    self.isLoggedIn();
     self.getGeo();
 
     return self;
