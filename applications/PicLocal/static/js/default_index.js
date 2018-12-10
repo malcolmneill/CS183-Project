@@ -95,7 +95,8 @@ var app = function() {
                     post_long: sent_long,
                     post_lat: sent_lat,
                     post_image: sent_image,
-                    post_author: data.post_author
+                    post_author: data.post_author,
+                    post_date: data.post_date
                 };
                 self.vue.post_list.unshift(new_post);
                 // We re-enumerate the array.

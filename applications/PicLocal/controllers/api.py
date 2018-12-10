@@ -1,11 +1,17 @@
 # Here go your api methods.
 
+import datetime
+
 def get_user_email():
     return None if auth.user is None else auth.user.email
+
+def get_current_time():
+    return datetime.datetime.utcnow()
 
 @auth.requires_signature()
 def add_post():
     author = get_user_email()
+    date = get_current_time().strftime('%m/%d/%Y')
     post_id = db.post.insert(
         post_author=author,
         post_title=request.vars.post_title,
@@ -15,7 +21,7 @@ def add_post():
         post_image=request.vars.post_image,
     )
     # We return the id of the new post, so we can insert it along all the others.
-    return response.json(dict(post_id=post_id, post_author=author,))
+    return response.json(dict(post_id=post_id, post_author=author, post_date=date,))
 
 def logged_in():
     if auth.user == None:
