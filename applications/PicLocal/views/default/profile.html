@@ -4,8 +4,8 @@
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
 <script>
     var add_post_url = "{{=URL('api', 'add_post', user_signature=True)}}";
-	var get_post_list_url = "{{=URL('api', 'get_post_list')}}";
-	var get_users_post_list_url = "{{=URL('api', 'get_users_post_list', user_signature=True)}}";
+	// var get_post_list_url = "{{=URL('api', 'get_post_list')}}";
+	var get_user_post_list_url = "{{=URL('api', 'get_user_post_list')}}";
     // Like callbacks.
     var set_like_url = "{{=URL('api', 'set_like', user_signature=True)}}";
     var get_likers_url = "{{=URL('api', 'get_likers')}}"
@@ -55,25 +55,23 @@
 
 			</div>
 
-
 			<div class="profile-user-settings">
 
 				<h1 class="profile-user-name"> {{=auth.user.first_name}}</h1>
 
-				<h3 class="profile-real-name"> {{=get_user_email()}} </h3>
+				<h2 class="profile-real-name"> {{=get_user_email()}} </h2>
 
 				<a class="btn profile-edit-btn" href="{{=URL('default','user/profile')}}">{{=T('Edit Profile')}}</a>
 
+
 			</div>
 
-			<!-- Number of User's posts
+			<!-- Number of User's posts -->
 			<div class="profile-stats">
 
-				<ul>
-					<li><span class="profile-stat-count">164</span> posts</li>
-				</ul>
+				<li id="insert"></li>
 
-			</div> -->
+			</div>
 
 			<div class="profile-bio">
 
@@ -99,8 +97,7 @@
 						<img v-bind:src="post.post_image" class="gallery-image"/>
 						<div class="gallery-item-info">
 							<ul>
-								<li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fa fa-heart" aria-hidden="true"></i> 56</li>
-								<li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fa fa-comment" aria-hidden="true"></i> 2</li>
+								<li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fa fa-heart" aria-hidden="true"></i> ${post.thumb_count}</li>
 							</ul>
 						</div>
 					</div>
