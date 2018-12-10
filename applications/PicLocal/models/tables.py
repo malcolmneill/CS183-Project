@@ -44,6 +44,7 @@ db.define_table('comments',
                 Field('post_id', "reference post"),
                 Field('body', 'text'),
                 Field('editingComment', 'boolean'),
+                Field('mine', 'boolean', default=0),
                 Field('comment_author', default=get_user_email()),
                 )
 

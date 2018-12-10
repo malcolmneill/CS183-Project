@@ -20,6 +20,7 @@ var app = function() {
             // Set variables
             Vue.set(e, 'showComments', false);
             Vue.set(e, 'comments', []);
+            Vue.set(e, 'mycomments',[]);
             Vue.set(e, 'addingComment', false);
             Vue.set(e, 'newComment', '');
             Vue.set(e, '._editing', false);
@@ -169,6 +170,9 @@ var app = function() {
         $.post(url, function(response) {
             self.vue.post_list[idx].comments = response.comments;
         });
+        for(var i = 0; i < self.vue.post_list[idx].comments.length; i++){
+            self.myComment(self.vue.post_list[idx].comments[i])
+        }
     };
 
     var hideComments = function(idx) {
@@ -181,10 +185,11 @@ var app = function() {
     
     var saveComment = function(idx) {
         var commentBool = false;
+        var i = self.vue.post_list[idx].comments.length;
         var newComment = {
             post_id: self.vue.post_list[idx].id,
             body: self.vue.post_list[idx].newComment,
-            editingComment: commentBool
+            editingComment: commentBool,
         };
         $.post(insertCommentsUrl, newComment, function(response) { 
             newComment['id'] = response.new_comment_id;
@@ -283,7 +288,15 @@ var app = function() {
         });
     }
 
-    
+    self.myComment = function(comment){
+        $.post(myCommentURL,{author: comment.comment_author, id: comment.id}, function(response){
+            if(response == 1){
+                console.log("my comment");
+            } else {
+                console.log("not my comment");
+            }
+        });
+    }
 
     self.get_image = function () {
         $.getJSON(image_get_url,
@@ -295,6 +308,7 @@ var app = function() {
             }
             )
     };
+    
 
     self.upload_file = function (event, post_idx) {
         // This function is in charge of:

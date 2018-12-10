@@ -28,6 +28,7 @@
     var set_stars_url = "{{=URL('api', 'set_stars', user_signature=True)}}";
     var is_logged_in = "{{=URL('api', 'logged_in')}}";
     var isAuthorURL = "{{=URL('api', 'is_author')}}";
+    var myCommentURL = "{{=URL('api', 'my_comment')}}";
 </script>
 {{end}}
 </head>
@@ -172,7 +173,9 @@
                       </span>
                       ${ comment.body }
                     </p>
-                    <button v-if="!comment.editingComment" v-on:click="toggleEditingComment(post._idx, index)"> <i class="fa fa-pencil-square-o"></i> Edit Comment </button>
+                    <div v-if="!comment.editingComment">
+                    <button v-if="comment.mine == 0" v-on:click="toggleEditingComment(post._idx, index)"> <i class="fa fa-pencil-square-o"></i> Edit Comment </button>
+                    </div>
                     <div v-if="comment.editingComment">
                       <textarea rows="1" cols="50" v-model="comment.body"></textarea>
                       <button v-on:click="edit_comment(post._idx, index); toggleEditingComment(post._idx, index);">Save Comment</button>
