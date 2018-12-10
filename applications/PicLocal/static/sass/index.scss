@@ -63,6 +63,8 @@ header{
   div.main_content {
     padding: 16px;
     color:white;
+    width: 100%;
+    text-align: center;
 
     .addingPost{
         color: white;
@@ -109,6 +111,7 @@ header{
         border: 1px solid black;
         border-radius: 2px;
         overflow:auto;
+        text-align: left;
 
         .card-header{
 

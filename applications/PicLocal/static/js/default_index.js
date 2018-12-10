@@ -188,6 +188,7 @@ var app = function() {
         };
         $.post(insertCommentsUrl, newComment, function(response) { 
             newComment['id'] = response.new_comment_id;
+            newComment['comment_author'] = response.comment_author;
             self.vue.post_list[idx].comments.push(newComment);
         });
     }

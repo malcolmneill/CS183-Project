@@ -73,10 +73,16 @@
             Location:
           </div>
           <div class="form half">
-            Latitude: <textarea v-model="form_lat" placeholder=""></textarea>
+            Latitude: 
+            <div class="lat">
+                <textarea v-model="form_lat" placeholder=""></textarea>
+            </div>
           </div>
           <div class="form half">
-            Longitude: <textarea v-model="form_long" placeholder=""></textarea>
+            Longitude: 
+            <div class="long">
+                <textarea v-model="form_long" placeholder=""></textarea>
+            </div>
           </div>
         </div>
         <div class="container form_row">
@@ -88,7 +94,7 @@
         <div class="container form_row"><div class="quarter"></div>
           <div class="threequarters">
             <div class="submit">
-              <button id="add-post" v-on:click="add_post">Submit</button>
+              <button id="add-post" v-on:click="add_post(); toggle_form();">Submit</button>
               <button id="cancel-post" v-on:click="toggle_form()">Cancel</button>
             </div>
           </div>
@@ -141,7 +147,7 @@
                   <span class="username">${post.post_author} </span>
                   <span>
                   <span v-if="!post._editing"> 
-                  ${post.post_content} <span v-if="post.isMine" class="fa fa-pencil-square-o" v-on:click="toggle_editing(post._idx)"></span> <!-- Responsible for the caption for the photo. -->
+                  ${post.post_content} <span v-if="post.isMine"></span> <!-- Responsible for the caption for the photo. -->
                   </span>
                   <div v-if="post._editing">
                     <textarea rows="1" cols="25" v-model="post.post_content" ></textarea>
@@ -172,8 +178,8 @@
                       <button v-on:click="edit_comment(post._idx, index); toggleEditingComment(post._idx, index);">Save Comment</button>
                     </div>
                     <br>
-                    <button v-if="!post.addingComment" v-on:click="toggleAddingComment(post._idx)">Add Comment</button>
                   </div>
+                  <button v-if="!post.addingComment" v-on:click="toggleAddingComment(post._idx)">Add Comment</button>
                 </div>
               </div>
            </div>

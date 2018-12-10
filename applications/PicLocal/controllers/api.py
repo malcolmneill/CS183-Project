@@ -126,6 +126,7 @@ def is_author():
 
 @auth.requires_signature()
 def insert_comment():
+    author = get_user_email()
     # in this function, we insert a comment into the database
     new_comment_id = db.comments.insert(
         post_id=request.vars.post_id,
@@ -133,7 +134,7 @@ def insert_comment():
         editingComment=request.vars.editingComment,
     )
     # JavaScript needs the id of the comment that was just created so that it can pass it to the clickThumbs function
-    return response.json(dict(new_comment_id=new_comment_id))
+    return response.json(dict(new_comment_id=new_comment_id, comment_author=author,))
 
 def get_comments():
     comments = db(db.comments.post_id == request.vars.id).select()
