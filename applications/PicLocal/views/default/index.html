@@ -19,14 +19,11 @@
     var insertCommentsUrl = "{{=URL('api', 'insert_comment', user_signature=True)}}";
     var edit_post_url = "{{=URL('api', 'edit_post', user_signature=True)}}";
     var edit_comment_url = "{{=URL('api', 'edit_comment', user_signature=True)}}";
-<<<<<<< HEAD
     var get_thumb_count_url = "{{=URL('api', 'get_thumb_count_on_post')}}";
     var set_thumb_url = "{{=URL('api', 'set_thumb', user_signature=True)}}";
-=======
     // Images.
     var image_post_url = "{{=URL('api', 'post_image')}}";
     var image_get_url = "{{=URL('api', 'get_image')}}";
->>>>>>> c8cd6ee30bf07ee7752380f5d0426565e72b9d38
     // Stars.
     var set_stars_url = "{{=URL('api', 'set_stars', user_signature=True)}}";
     var is_logged_in = "{{=URL('api', 'logged_in')}}";
@@ -103,26 +100,12 @@
             </div>
           </div>
         </div>
-<<<<<<< HEAD
-        </div>
-        <div v-if="post_list.length === 0">There are no posts.</div>
-      </div>
-      
-
-        <!-- This is hw4 code that I am keeping commented for reference.-->
-
-      <!-- Message in case there are no posts. -->
-      
-<!--
-      <!-- We display the posts. 
-=======
       <!-- Message in case there are no posts. -->
       <div v-if="post_list.length === 0">There are no posts.</div>
     </div>
     
     <div class="container">
       <!-- We display the posts. -->
->>>>>>> c8cd6ee30bf07ee7752380f5d0426565e72b9d38
       <div id="post_list">
         <div class="card" v-for="post in post_list">
           <div class="card-header">
@@ -131,7 +114,7 @@
             </div>
             <div class ="profile-info">
               <div class="name">${post.post_author}</div>
-              <div class ="location">Santa Cruz, California </div>  <!-- Change this to ${post.post_location?}-->
+              <div class ="location">${post.post_lat},${post.post_long} </div>  <!-- Change this to ${post.post_location?}-->
             </div>
             <div class="time">
               ${post.post_date}  <!-- not displaying for some reason? -->
@@ -145,8 +128,18 @@
         
             <div class="card-footer">
               <div class="likes">
-                21 likes    <!-- I don't have the code for likes in my hw. Does someone else have it? -->
+                Likes: ${post.thumb_count}  <!-- I don't have the code for likes in my hw. Does someone else have it? -->
               </div>
+              <div>
+                <span v-on:mouseover="thumb_mouseover(post._idx, 'u')" v-on:mouseout="thumb_mouseout(post._idx)">
+                  <i v-if="post._thumb_state == 'u'" v-on:click="thumb_click(post._idx,'u')"  class="fa thumbshover fa-thumbs-up"></i>
+                  <i v-if="post._thumb_state !='u'" v-on:click="thumb_click(post._idx,'u')" class="fa fa-thumbs-o-up"></i>
+                  </span>
+                <span v-on:mouseover="thumb_mouseover(post._idx, 'd')" v-on:mouseout="thumb_mouseout(post._idx)">
+                  <i v-if="post._thumb_state !='d'" v-on:click="thumb_click(post._idx,'d')" class="fa fa-thumbs-o-down"></i>
+                  <i v-if="post._thumb_state =='d'" v-on:click="thumb_click(post._idx,'d')" class="fa thumbshover fa-thumbs-down"></i>
+                </span>
+              </div>  
               <div class="description"> 
                 <p>
                   <span class="username">${post.post_author}</span> ${post.post_content} <!-- Responsible for the caption for the photo. -->
@@ -174,100 +167,16 @@
                       <textarea v-model="comment.body"></textarea>
                       <button v-on:click="edit_comment(post._idx, index); toggleEditingComment(post._idx, index);">Save Comment</button>
                     </div>
-<<<<<<< HEAD
+                  </div>
                 </div>
-
-          </div>
-        </div>
+              </div>
+           </div>
       </div>
-
-    -->
-
-<div class="container">
-    <!-- We display the posts. -->
-      <div id="post_list">
-        <div class="card" v-for="post in post_list">
-
-              <div class="card-header">
-                <div class="profile-img">
-      
-                </div>
-                  <div class ="profile-info">
-                    <div class="name">${post.post_author}</div>
-                    <span>
-                      <div class="location">${post.post_lat}, ${post.post_long}</div>  <!-- Change this to ${post.post_location?}-->
-                    </span>
-=======
->>>>>>> c8cd6ee30bf07ee7752380f5d0426565e72b9d38
-                  </div>
-                  <div v-if="post.comments.length <= 0">
-                      This post has no comments.
-                  </div>
-<<<<<<< HEAD
-              </div>
-      
-              <div class="content">
-                <img src="{{=URL('static','images/nature.png')}}" />  <!-- Change this to {$post.post_image} once we have image posting done?-->
-              </div>
-      
-              <div class="card-footer">
-                <div class="likes">
-                  likes: ${post.thumb_count}    <!-- I don't have the code for likes in my hw. Does someone else have it? -->
-=======
->>>>>>> c8cd6ee30bf07ee7752380f5d0426565e72b9d38
-                </div>
-              </div>
-              <hr />
-              <form>
-                <!-- Like button. Implement hover similar to the thumbs in hw3? -->
-                <div class="heart">
-                  <i class="fa fa-heart-o" aria-hidden="true"></i>
-                </div>
-                <div class="add-comment">
-                  <input type="text" placeholder="Add comment."/>
-                </div>
-                <div class="options">
-                    <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
-                </div>
-<<<<<<< HEAD
-                <hr />
-                <form>
-                <!---  <div class="heart">
-                      <i class="fa fa-heart-o" aria-hidden="true"></i>
-                  </div> -->
-                  <span v-on:mouseover="thumb_mouseover(post._idx, 'u')" v-on:mouseout="thumb_mouseout(post._idx)">
-                      <i v-if="post._thumb_state == 'u'" v-on:click="thumb_click(post._idx,'u')"  class="fa thumbshover fa-thumbs-up"></i>
-                      <i v-if="post._thumb_state !='u'" v-on:click="thumb_click(post._idx,'u')" class="fa fa-thumbs-o-up"></i>
-                      </span>
-                    <span v-on:mouseover="thumb_mouseover(post._idx, 'd')" v-on:mouseout="thumb_mouseout(post._idx)">
-                      <i v-if="post._thumb_state !='d'" v-on:click="thumb_click(post._idx,'d')" class="fa fa-thumbs-o-down"></i>
-                      <i v-if="post._thumb_state =='d'" v-on:click="thumb_click(post._idx,'d')" class="fa thumbshover fa-thumbs-down"></i>
-                    </span>
-      
-                  <div class="add-comment">
-                    <input type="text" placeholder="Add comment."/>
-                  </div>
-      
-                  <div class="options">
-                      <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
-                  </div>
-                </form>
-              </div>
-=======
-              </form>
-            </div>
->>>>>>> c8cd6ee30bf07ee7752380f5d0426565e72b9d38
-          </div>
-        </div>
       </div>
     </div>
-<<<<<<< HEAD
 </div>
 </div>
 
-=======
-  </div>
->>>>>>> c8cd6ee30bf07ee7752380f5d0426565e72b9d38
 </body>
 
 <script src="{{=URL('static', 'js/default_index.js')}}"></script>

@@ -35,6 +35,7 @@ def get_post_list():
                 post_author=post.post_author,
                 post_long=post.post_long,
                 post_lat=post.post_lat,
+                post_image=post.post_image,
                 thumb_count=0,
                 thumb= None
             )
@@ -49,41 +50,6 @@ def get_post_list():
                         post_to_send['thumb_count'] -= 1
             results.append(post_to_send)
     print(results)
-    results = []
-    if auth.user is None:
-        # Not logged in.
-        rows = db().select(db.post.ALL, orderby=~db.post.post_time)
-        for row in rows:
-            results.append(dict(
-                id=row.id,
-                post_title=row.post_title,
-                post_content=row.post_content,
-                post_author=row.post_author,
-                post_date =row.post_date,
-                post_long=row.post_long,
-                post_lat=row.post_lat,
-                post_image=row.post_image,
-                thumb = None,
-            ))
-    else:
-        # Logged in.
-        rows = db().select(db.post.ALL, db.thumb.ALL,
-                            left=[
-                                db.thumb.on((db.thumb.post_id == db.post.id) & (db.thumb.user_email == auth.user.email)),
-                            ],
-                            orderby=~db.post.post_time)
-        for row in rows:
-            results.append(dict(
-                id=row.post.id,
-                post_title=row.post.post_title,
-                post_content=row.post.post_content,
-                post_author=row.post.post_author,
-                post_date=row.post.post_date,
-                post_long=row.post.post_long,
-                post_lat=row.post.post_lat,
-                post_image=row.post.post_image,
-                thumb = None if row.thumb.id is None else row.thumb.thumb_state,
-            ))
     # For homogeneity, we always return a dictionary.
     return response.json(dict(post_list=results))
 
