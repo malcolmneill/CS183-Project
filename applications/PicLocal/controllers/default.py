@@ -58,6 +58,7 @@ def download():
     return response.download(request, db)
 
 # profile
+@auth.requires_login()
 def profile():
     return dict(form=auth())
 
