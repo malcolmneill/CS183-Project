@@ -52,7 +52,7 @@
 
   <div class="main_content">
 
-  
+  <div id ="addingPost">
     <div id="pleaseLogIn" v-if="!loggedIn">
       Please <a href="{{=URL('default', 'user/login')}}">Sign In</a>
       or <a href="{{=URL('default', 'user/register')}}">Register</a>
@@ -61,18 +61,10 @@
       <div id="add_post" v-if="showForm">
         <div class="container form_row">
           <div class="label quarter">
-            Title:
+            Caption:
           </div>
           <div class="form threequarters">
-            <input v-model="form_title" placeholder="Enter the post title"/>
-          </div>
-        </div>
-        <div class="container form_row">
-          <div class="label quarter">
-            Content:
-          </div>
-          <div class="form threequarters">
-            <textarea v-model="form_content" placeholder="Enter the content of your post"></textarea>
+            <textarea v-model="form_content" placeholder="Enter the caption for your post"></textarea>
           </div>
         </div>
         <div class="container form_row">
@@ -103,6 +95,7 @@
       <!-- Message in case there are no posts. -->
       <div v-if="post_list.length === 0">There are no posts.</div>
     </div>
+  </div>
     
     <div class="container">
       <!-- We display the posts. -->
