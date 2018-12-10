@@ -54,27 +54,29 @@
 
 			</div>
 
+
 			<div class="profile-user-settings">
 
 				<h1 class="profile-user-name"> {{=auth.user.first_name}}</h1>
 
 				<h3 class="profile-real-name"> {{=get_user_email()}} </h3>
 
-				<button class="btn profile-edit-btn">Edit Profile</button>
+				<a class="btn profile-edit-btn" href="{{=URL('default','user/profile')}}">{{=T('Edit Profile')}}</a>
 
 			</div>
 
+			<!-- Number of User's posts
 			<div class="profile-stats">
 
 				<ul>
 					<li><span class="profile-stat-count">164</span> posts</li>
 				</ul>
 
-			</div>
+			</div> -->
 
 			<div class="profile-bio">
 
-				<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit 📷✈️🏕️</p>
+				<p> {{=auth.user.bio}} </p>
 
 			</div>
 
@@ -106,9 +108,6 @@
 		</div>
 		<!-- End of gallery -->
 
-		<div class="loader"></div>
-
-	</div>
 	<!-- End of container -->
 
 </main>
