@@ -34,30 +34,30 @@
 <body>
 
   <!-- TODO: Currently covers the web2py ui.-->
-  <header>
+  <div id="vue-div">
+
+  
+    <header>
+      <navbar>
+      <a href="{{=URL('default', 'index')}}"> <i class="fa fa-home" aria-hidden="true"></i></a>
+      </navbar>
+      <navbar>
+        <button id="form_appear" v-on:click="toggle_form()"><i class="fa fa-plus-square" aria-hidden="true"></i></button>
+      </navbar>
     <navbar>
-    <a href="{{=URL('default', 'index')}}"> <i class="fa fa-home" aria-hidden="true"></i></a>
+      <a href="{{=URL('default', 'profile')}}"><i class="fa fa-user" aria-hidden="true"></i></a>
     </navbar>
-    <navbar>
-    <a href="search.html"> <i class="fa fa-search" aria-hidden="true"></i></a>
-  </navbar>
-  <navbar>
-    <a href="likes.html"> <i class="fa fa-heart-o" aria-hidden="true"></i></a>
-  </navbar>
-  <navbar>
-    <a href="{{=URL('default', 'profile')}}"><i class="fa fa-user-o" aria-hidden="true"></i></a>
-  </navbar>
-  </header>
+    </header>
+
 
   <div class="main_content">
 
-    <div id="vue-div">
+  
     <div id="pleaseLogIn" v-if="!loggedIn">
       Please <a href="{{=URL('default', 'user/login')}}">Sign In</a>
       or <a href="{{=URL('default', 'user/register')}}">Register</a>
     </div>
     <div id="login" v-if="loggedIn">
-    <button id="form_appear" v-if="!showForm " v-on:click="toggle_form()">Add Post</button>
       <div id="add_post" v-if="showForm">
         <div class="container form_row">
           <div class="label quarter">
@@ -110,7 +110,7 @@
         <div class="card" v-for="post in post_list">
           <div class="card-header">
             <div class="profile-img">
-              <!-- Code for profile picture goes here. -->
+              <img class="profile-img" src="{{=URL('static','images/PicLocalLogo.png')}}" />
             </div>
             <div class ="profile-info">
               <div class="name">${post.post_author}</div>
@@ -131,14 +131,16 @@
                 Likes: ${post.thumb_count}  <!-- I don't have the code for likes in my hw. Does someone else have it? -->
               </div>
               <div>
-                <span v-on:mouseover="thumb_mouseover(post._idx, 'u')" v-on:mouseout="thumb_mouseout(post._idx)">
-                  <i v-if="post._thumb_state == 'u'" v-on:click="thumb_click(post._idx,'u')"  class="fa thumbshover fa-thumbs-up"></i>
-                  <i v-if="post._thumb_state !='u'" v-on:click="thumb_click(post._idx,'u')" class="fa fa-thumbs-o-up"></i>
+                <div class="thumbs">
+                  <span v-on:mouseover="thumb_mouseover(post._idx, 'u')" v-on:mouseout="thumb_mouseout(post._idx)">
+                    <i v-if="post._thumb_state == 'u'" v-on:click="thumb_click(post._idx,'u')"  class="fa thumbshover fa-thumbs-up"></i>
+                    <i v-if="post._thumb_state !='u'" v-on:click="thumb_click(post._idx,'u')" class="fa fa-thumbs-o-up"></i>
+                    </span>
+                  <span v-on:mouseover="thumb_mouseover(post._idx, 'd')" v-on:mouseout="thumb_mouseout(post._idx)">
+                    <i v-if="post._thumb_state !='d'" v-on:click="thumb_click(post._idx,'d')" class="fa fa-thumbs-o-down"></i>
+                    <i v-if="post._thumb_state =='d'" v-on:click="thumb_click(post._idx,'d')" class="fa thumbshover fa-thumbs-down"></i>
                   </span>
-                <span v-on:mouseover="thumb_mouseover(post._idx, 'd')" v-on:mouseout="thumb_mouseout(post._idx)">
-                  <i v-if="post._thumb_state !='d'" v-on:click="thumb_click(post._idx,'d')" class="fa fa-thumbs-o-down"></i>
-                  <i v-if="post._thumb_state =='d'" v-on:click="thumb_click(post._idx,'d')" class="fa thumbshover fa-thumbs-down"></i>
-                </span>
+                </div>
               </div>  
               <div class="description"> 
                 <p>

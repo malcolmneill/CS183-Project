@@ -51,3 +51,14 @@ db.define_table('my_images',
     Field('image_str', 'text'),
     Field('blog_post_id', 'integer'), # Should be a reference to a blog post I guess. 
 )
+
+# Users
+# Not currently being used.
+db.define_table('users',
+    Field('user_email', 'text'),
+    Field('user_first_name', 'text'),
+    Field('user_last_name', 'text'),
+    Field('user_profile_picture', 'text'),
+    Field('user_bio', 'text'),
+    Field('user_id'),
+)
