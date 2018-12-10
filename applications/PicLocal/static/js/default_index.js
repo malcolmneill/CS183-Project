@@ -22,7 +22,8 @@ var app = function() {
             Vue.set(e, 'comments', []);
             Vue.set(e, 'addingComment', false);
             Vue.set(e, 'newComment', '');
-            Vue.set(e, 'editingPost', false);
+            Vue.set(e, '._editing', false);
+            Vue.set(e, 'isMine', false);
             Vue.set(e, 'editingComment', false);
             Vue.set(e, '_thumb_state', e.thumb);
             Vue.set(e, '_thumb_count', e.thumb_count);
@@ -101,39 +102,8 @@ var app = function() {
         // If you put code here, it is run BEFORE the call comes back.
     };
 
-    self.edit_post = function (idx) {
-        var post = self.vue.post_list[idx];
-        var editedPost = {
-            id: post.id,
-            post_content: post.post_content
-        };
-        $.post(edit_post_url,
-            // Data we are sending.
-            editedPost,
-            // What do we do when the post succeeds?
-            function (data) {
-                console.log('end of edit_post');
-            });
-        // If you put code here, it is run BEFORE the call comes back.
-    };
 
-    self.edit_comment = function (idx, cidx) {
-        var comment = self.vue.post_list[idx].comments[cidx];
-        var editedComment = {
-            post_id: comment.post_id,
-            body: comment.body,
-            editingComment: comment.editingComment,
-            id: comment.id
-        };
-        $.post(edit_comment_url,
-            // Data we are sending.
-            editedComment,
-            // What do we do when the post succeeds?
-            function (data) {
-                console.log('end of edit_comment');
-            });
-        // If you put code here, it is run BEFORE the call comes back.
-    };
+   
 
     self.get_posts = function() {
         $.getJSON(get_post_list_url,
@@ -164,6 +134,9 @@ var app = function() {
         // We add the _idx attribute to the posts. 
         enumerate(self.vue.post_list);
         // We initialize the smile status to match the like. 
+        for(var i = 0; i < self.vue.post_list.length; i++ ){
+            self.isAuthor(self.vue.post_list[i]);
+        }
         self.vue.post_list.map(function (e) {
             // I need to use Vue.set here, because I am adding a new watched attribute
             // to an object.  See https://vuejs.org/v2/guide/list.html#Object-Change-Detection-Caveats
@@ -175,7 +148,18 @@ var app = function() {
         });
     };
 
-    // Added for hw4.
+    self.toggle_editing = function(post_idx){
+        self.vue.post_list[post_idx]._editing = !self.vue.post_list[post_idx]._editing;
+        console.log(self.vue.post_list[post_idx]._editing);
+    };
+
+    self.saveEdit = function(post_idx){
+        var p = self.vue.post_list[post_idx];
+        console.log(p.post_content);
+        $.post(edit_content_url, {id: p.id, post_content: p.post_content}, function(response){
+                console.log("end of method");
+            });
+    };
 
     var showComments = function(idx) {
         var id = self.vue.post_list[idx].id;
@@ -206,6 +190,27 @@ var app = function() {
             self.vue.post_list[idx].comments.push(newComment);
         });
     }
+    var toggleEditingComment = function(idx, commentID) {
+        self.vue.post_list[idx].comments[commentID].editingComment = !self.vue.post_list[idx].comments[commentID].editingComment;
+    };
+
+    self.edit_comment = function (idx, cidx) {
+        var comment = self.vue.post_list[idx].comments[cidx];
+        var editedComment = {
+            post_id: comment.post_id,
+            body: comment.body,
+            editingComment: comment.editingComment,
+            id: comment.id
+        };
+        $.post(edit_comment_url,
+            // Data we are sending.
+            editedComment,
+            // What do we do when the post succeeds?
+            function (data) {
+                console.log('end of edit_comment');
+            });
+        // If you put code here, it is run BEFORE the call comes back.
+    };
 
     self.thumb_mouseover = function (post_idx, newThumbState) {
         // When we mouse over something, the face has to assume the opposite
@@ -230,7 +235,6 @@ var app = function() {
     };
 
     self.set_thumbclick = function(post_idx, newThumbState) {
-        // The user has set this as the number of stars for the post.
         var p = self.vue.post_list[post_idx];
         var jsThumbValue = newThumbState;
         var pythonThumbValue = newThumbState;
@@ -264,20 +268,20 @@ var app = function() {
             } else {
                 self.vue.loggedIn = true;
             }
-            console.log("is logged")
-            console.log(response);
-            console.log("vue logged val")
-            console.log(self.vue.loggedIn)
         });
     }
 
-    var toggleEditingPost = function(idx) {
-        self.vue.post_list[idx].editingPost = !self.vue.post_list[idx].editingPost;
-    };
+    self.isAuthor = function(post){
+        $.get(isAuthorURL,{author: post.post_author}, function(response){
+            if(response == 1){
+                post.isMine = true;
+            } else {
+                post.isMine = false;
+            }
+        });
+    }
 
-    var toggleEditingComment = function(idx, commentID) {
-        self.vue.post_list[idx].comments[commentID].editingComment = !self.vue.post_list[idx].comments[commentID].editingComment;
-    };
+    
 
     self.get_image = function () {
         $.getJSON(image_get_url,
@@ -384,13 +388,13 @@ var app = function() {
         methods: {
             toggle_form: self.toggle_form,
             add_post: self.add_post,
-            edit_post: self.edit_post,
             edit_comment: self.edit_comment,
             showComments: showComments,
             hideComments: hideComments,
             toggleAddingComment: toggleAddingComment,
             saveComment: saveComment,
-            toggleEditingPost: toggleEditingPost,
+            toggle_editing: self.toggle_editing,
+            saveEdit: self.saveEdit,
             toggleEditingComment: toggleEditingComment,
             thumb_mouseout: self.thumb_mouseout,
             thumb_mouseover: self.thumb_mouseover,
@@ -400,7 +404,8 @@ var app = function() {
             close_uploader: self.close_uploader,
             upload_file: self.upload_file,
             get_image: self.get_image,
-            update_file: self.update_file
+            update_file: self.update_file,
+            isAuthor: self.isAuthor
         }
 
     });

@@ -106,6 +106,13 @@ def set_thumb():
     )
     return "thumb updated!"
 
+def is_author():
+    if auth.user.email != request.vars.author:
+        return 0
+    else:
+        return 1
+
+
 @auth.requires_signature()
 def insert_comment():
     # in this function, we insert a comment into the database
@@ -122,12 +129,15 @@ def get_comments():
     return response.json(dict(comments=comments))
 
 @auth.requires_signature()
-def edit_post():
-    db.post.update_or_insert((db.post.id == request.vars.id),
-        post_id = request.vars.id,
-        post_content = request.vars.post_content
-    )
-    return "done"
+def edit_content():
+    if auth.user.email != request.vars.post_author:
+        return "not authorized"
+    else:
+        db.post.update_or_insert((db.post.id == request.vars.id),
+            post_id = request.vars.id,
+            post_content = request.vars.post_content
+        )
+        return "done"
 
 @auth.requires_signature()
 def edit_comment():
@@ -158,4 +168,7 @@ def get_image():
     if r is not None:
         image_str = r.image_str
     return response.json(dict(image_str = image_str))
+
+
+
 

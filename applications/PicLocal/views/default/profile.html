@@ -19,7 +19,8 @@
     var image_get_url = "{{=URL('api', 'get_image')}}";
     // Stars.
     var set_stars_url = "{{=URL('api', 'set_stars', user_signature=True)}}";
-    var is_logged_in = "{{='false' if auth.user is None else 'true'}}";
+	var is_logged_in = "{{='false' if auth.user is None else 'true'}}";
+	var isAuthorURL = "{{=URL('api', 'is_author')}}";
 </script>
 {{end}}
 
@@ -67,7 +68,7 @@
 			<div class="profile-stats">
 
 				<ul>
-					<li><span class="profile-stat-count">164</span> posts</li>
+					<li><span class="profile-stat-count"> 54 </span> posts</li>
 				</ul>
 
 			</div>
@@ -91,12 +92,12 @@
 	<div class="container">
 		<div id="vue-div" class="display:none">
 			<div class="gallery">
-				<div class="card" v-for="post in post_list">
+				<div v-if="post.isMine" class="card" v-for="post in post_list">
 					<div class="gallery-item" tabindex="0">
 						<img v-bind:src="post.post_image" class="gallery-image"/>
 						<div class="gallery-item-info">
 							<ul>
-								<li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fa fa-heart" aria-hidden="true"></i> 56</li>
+								<li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fa fa-heart" aria-hidden="true"></i>${post.thumb_count}</li>
 								<li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fa fa-comment" aria-hidden="true"></i> 2</li>
 							</ul>
 						</div>
