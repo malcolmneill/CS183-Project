@@ -126,6 +126,7 @@ img {
 
 .profile-stats {
     font-weight: bold;
+    font-size: 15px;
     float: left;
     width: calc(66.666% - 2rem);
 }

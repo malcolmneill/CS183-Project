@@ -140,7 +140,6 @@ var app = function() {
                 // I am assuming here that the server gives me a nice list
                 // of posts, all ready for display.
                 console.log(data.post_list.length);
-                
                 self.vue.post_list = data.post_list;
                 self.process_posts();
                 console.log("I got my list");
@@ -179,6 +178,7 @@ var app = function() {
             } else {
                 post.isMine = false;
             }
+            document.getElementById("insert").innerHTML = self.vue.num_posts + " posts";
         });
     }
 
