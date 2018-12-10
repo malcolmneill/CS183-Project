@@ -4,7 +4,8 @@
 <script src="{{=URL('static', 'js/vue.js')}}"></script>
 <script>
     var add_post_url = "{{=URL('api', 'add_post', user_signature=True)}}";
-    var get_post_list_url = "{{=URL('api', 'get_post_list')}}";
+	var get_post_list_url = "{{=URL('api', 'get_post_list')}}";
+	var get_users_post_list_url = "{{=URL('api', 'get_users_post_list', user_signature=True)}}";
     // Like callbacks.
     var set_like_url = "{{=URL('api', 'set_like', user_signature=True)}}";
     var get_likers_url = "{{=URL('api', 'get_likers')}}"

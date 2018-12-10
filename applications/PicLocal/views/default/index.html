@@ -114,7 +114,7 @@
             <div class="content">
               <!-- <img src="{{=URL('static','images/nature.png')}}" />  <!-- Change this to {$post.post_image} once we have image posting done?-->    
               <img v-bind:src="post.post_image" />
-              
+            </div>      
         
             <div class="card-footer">
               <div class="likes">
@@ -140,7 +140,7 @@
                       <span class="username">
                         ${ comment.comment_author } 
                       </span>
-                      ${ comment.body } ${comment.editingComment}
+                      ${ comment.body }
                     </p>
                     <button v-if="!comment.editingComment" v-on:click="toggleEditingComment(post._idx, index)"> <i class="fa fa-pencil-square-o"></i> Edit Comment </button>
                     <div v-if="comment.editingComment">
