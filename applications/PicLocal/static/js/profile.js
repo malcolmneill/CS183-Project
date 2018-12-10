@@ -23,6 +23,7 @@ var app = function() {
             Vue.set(e, 'addingComment', false);
             Vue.set(e, 'newComment', '');
             Vue.set(e, 'editingPost', false);
+            Vue.set(e, 'isMine', false);
             Vue.set(e, 'editingComment', false);
         });
     };
@@ -139,16 +140,8 @@ var app = function() {
                 // I am assuming here that the server gives me a nice list
                 // of posts, all ready for display.
                 console.log(data.post_list.length);
-                var tempPosts = [];
-                var j = 0;
-                for(var i = 0; i < data.post_list.length; i++ ){
-                    if(self.inRange(data.post_list[i]) <= 10){
-                        tempPosts[i - j] = data.post_list[i];
-                    } else {
-                        j++;
-                    }
-                }
-                self.vue.post_list = tempPosts;
+                
+                self.vue.post_list = data.post_list;
                 self.process_posts();
                 console.log("I got my list");
 
@@ -163,6 +156,9 @@ var app = function() {
         // We add the _idx attribute to the posts. 
         enumerate(self.vue.post_list);
         // We initialize the smile status to match the like. 
+        for(var i = 0; i < self.vue.post_list.length; i++ ){
+            self.isAuthor(self.vue.post_list[i]);
+        }
         self.vue.post_list.map(function (e) {
             // I need to use Vue.set here, because I am adding a new watched attribute
             // to an object.  See https://vuejs.org/v2/guide/list.html#Object-Change-Detection-Caveats
@@ -174,45 +170,17 @@ var app = function() {
         });
     };
 
-    // Added for hw4.
 
-    var showComments = function(idx) {
-        var id = self.vue.post_list[idx].id;
-        var url = getCommentsUrl + '?id=' + id;
-        self.vue.post_list[idx].showComments = true;
-        $.post(url, function(response) {
-            self.vue.post_list[idx].comments = response.comments;
-        });
-    };
-
-    var hideComments = function(idx) {
-        self.vue.post_list[idx].showComments = false;
-    };
-
-    var toggleAddingComment = function(idx) {
-        self.vue.post_list[idx].addingComment = !self.vue.post_list[idx].addingComment;
-    };
-    
-    var saveComment = function(idx) {
-        var commentBool = false;
-        var newComment = {
-            post_id: self.vue.post_list[idx].id,
-            body: self.vue.post_list[idx].newComment,
-            editingComment: commentBool
-        };
-        $.post(insertCommentsUrl, newComment, function(response) { 
-            newComment['id'] = response.new_comment_id;
-            self.vue.post_list[idx].comments.push(newComment);
+    self.isAuthor = function(post){
+        $.get(isAuthorURL,{author: post.post_author}, function(response){
+            if(response == 1){
+                post.isMine = true;
+                self.vue.num_posts ++;
+            } else {
+                post.isMine = false;
+            }
         });
     }
-
-    var toggleEditingPost = function(idx) {
-        self.vue.post_list[idx].editingPost = !self.vue.post_list[idx].editingPost;
-    };
-
-    var toggleEditingComment = function(idx, commentID) {
-        self.vue.post_list[idx].comments[commentID].editingComment = !self.vue.post_list[idx].comments[commentID].editingComment;
-    };
 
     self.get_image = function () {
         $.getJSON(image_get_url,
@@ -312,23 +280,19 @@ var app = function() {
             received_image: null,
             show_img: false,
             self_page: true, // Leave it to true, so initially you are looking at your own images.
-            file_input: null
+            file_input: null,
+            num_posts: 0
         },
         methods: {
             add_post: self.add_post,
             edit_post: self.edit_post,
             edit_comment: self.edit_comment,
-            showComments: showComments,
-            hideComments: hideComments,
-            toggleAddingComment: toggleAddingComment,
-            saveComment: saveComment,
-            toggleEditingPost: toggleEditingPost,
-            toggleEditingComment: toggleEditingComment,
             open_uploader: self.open_uploader,
             close_uploader: self.close_uploader,
             upload_file: self.upload_file,
             get_image: self.get_image,
-            update_file: self.update_file
+            update_file: self.update_file,
+            isAuthor: self.isAuthor
         }
 
     });

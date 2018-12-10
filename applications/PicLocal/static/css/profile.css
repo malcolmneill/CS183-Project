@@ -107,14 +107,28 @@ img {
     justify-content: center;
     align-items: center;
     margin-right: 3rem;
-}
+  }
 
 .profile-image img {
     border-radius: 50%;
+    float: left;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.profile-user-settings,
-.profile-stats,
+.profile-user-settings {
+    float: left;
+    width: calc(66.666% - 2rem);
+}
+
+.profile-stats {
+    font-weight: bold;
+    float: left;
+    width: calc(66.666% - 2rem);
+}
 .profile-bio {
     float: left;
     width: calc(66.666% - 2rem);

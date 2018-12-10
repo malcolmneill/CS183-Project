@@ -17,7 +17,7 @@
     // Comments.
     var getCommentsUrl = "{{=URL('api', 'get_comments')}}";
     var insertCommentsUrl = "{{=URL('api', 'insert_comment', user_signature=True)}}";
-    var edit_post_url = "{{=URL('api', 'edit_post', user_signature=True)}}";
+    var edit_content_url ="{{=URL('api', 'edit_content', user_signature=True)}}";
     var edit_comment_url = "{{=URL('api', 'edit_comment', user_signature=True)}}";
     var get_thumb_count_url = "{{=URL('api', 'get_thumb_count_on_post')}}";
     var set_thumb_url = "{{=URL('api', 'set_thumb', user_signature=True)}}";
@@ -27,6 +27,7 @@
     // Stars.
     var set_stars_url = "{{=URL('api', 'set_stars', user_signature=True)}}";
     var is_logged_in = "{{=URL('api', 'logged_in')}}";
+    var isAuthorURL = "{{=URL('api', 'is_author')}}";
 </script>
 {{end}}
 </head>
@@ -135,19 +136,27 @@
                   </span>
                 </div>
               </div>  
-              <div class="description"> 
+              <span class="description"> 
                 <p>
-                  <span class="username">${post.post_author}</span> ${post.post_content} <!-- Responsible for the caption for the photo. -->
+                  <span class="username">${post.post_author} </span>
+                  <span>
+                  <span v-if="!post._editing"> 
+                  ${post.post_content} <span v-if="post.isMine" class="fa fa-pencil-square-o" v-on:click="toggle_editing(post._idx)"></span> <!-- Responsible for the caption for the photo. -->
+                  </span>
+                  <div v-if="post._editing">
+                    <textarea rows="1" cols="25" v-model="post.post_content" ></textarea>
+                    <button v-on:click="saveEdit(post._idx); toggle_editing(post._idx)">Submit</button>
+                  </div>
+                </span>
                 </p>
-              </div>
+              </span>
               <div class="comments">
                 <button v-if="!post.showComments" v-on:click="showComments(post._idx)">Add / Show Comments</button>
                 <button v-if="post.showComments" v-on:click="hideComments(post._idx)">Hide Comments</button>
                 <div v-if="post.showComments" class="comment-section">
                   <br>
-                  <button v-if="!post.addingComment" v-on:click="toggleAddingComment(post._idx)">Add Comment</button>
                   <div v-if="post.addingComment">
-                    <textarea v-model="post.newComment"></textarea>
+                    <textarea rows="1" cols="50" v-model="post.newComment"></textarea>
                     <button v-on:click="saveComment(post._idx); toggleAddingComment(post._idx);">Save</button>
                   </div>
                   <div v-if="post.comments.length > 0" v-for="(comment, index) in post.comments" class="comment">
@@ -159,9 +168,11 @@
                     </p>
                     <button v-if="!comment.editingComment" v-on:click="toggleEditingComment(post._idx, index)"> <i class="fa fa-pencil-square-o"></i> Edit Comment </button>
                     <div v-if="comment.editingComment">
-                      <textarea v-model="comment.body"></textarea>
+                      <textarea rows="1" cols="50" v-model="comment.body"></textarea>
                       <button v-on:click="edit_comment(post._idx, index); toggleEditingComment(post._idx, index);">Save Comment</button>
                     </div>
+                    <br>
+                    <button v-if="!post.addingComment" v-on:click="toggleAddingComment(post._idx)">Add Comment</button>
                   </div>
                 </div>
               </div>

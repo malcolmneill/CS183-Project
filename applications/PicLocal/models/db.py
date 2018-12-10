@@ -113,6 +113,7 @@ mail.settings.ssl = configuration.get('smtp.ssl') or False
 auth.settings.registration_requires_verification = False
 auth.settings.registration_requires_approval = False
 auth.settings.reset_password_requires_verification = True
+auth.settings.profile_next = URL('profile')
 
 # Trying to make a copy of the user's email address on register
 # Not being used currently
