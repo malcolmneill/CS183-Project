@@ -9,7 +9,6 @@ body{
 header{
     background: #FAFAFA;
     border-bottom: 1px solid #ccc;
-    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -24,7 +23,7 @@ header{
         padding: 12px;
 
         &:hover{
-            .fa-heart-o{
+            .fa{
                 color: red;
             }
         }
@@ -100,13 +99,19 @@ header{
                 position: relative;
                 top: 3px;
                 margin-right: 5px;
+
+                .img{
+                    border-radius: 50%;
+                }
             }
+
+
             .profile-info{
                 display: inline-block;
 
                 .name{
                     font-size: 14px;
-                    color: red;
+                    color: #111;
                     font-weight: 700;
                 }
 
@@ -119,7 +124,7 @@ header{
             .time{
                 display: inline-block;
                 float: right;
-                font-size: 10px;
+                font-size: 14px;
                 top: 10px;
                 position: relative;
             }

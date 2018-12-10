@@ -26,7 +26,10 @@ db.define_table('post',
                 Field('post_lat'),
                 Field('post_long'),
                 Field('post_time', 'datetime', default=get_current_time()),
+                Field('post_date', default=get_current_time().strftime('%m/%d/%Y')),
+                Field('post_image', 'text'),
                 )
+
 
 
 # Thumbs
@@ -41,4 +44,10 @@ db.define_table('comments',
                 Field('post_id', "reference post"),
                 Field('body', 'text'),
                 Field('editingComment', 'boolean'),
+                Field('comment_author', default=get_user_email()),
                 )
+
+db.define_table('my_images',
+    Field('image_str', 'text'),
+    Field('blog_post_id', 'integer'), # Should be a reference to a blog post I guess. 
+)
