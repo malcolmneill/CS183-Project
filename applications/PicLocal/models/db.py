@@ -93,7 +93,7 @@ auth = Auth(db, host_names=configuration.get('host.names'))
 # -------------------------------------------------------------------------
 auth.settings.extra_fields['auth_user'] = [
   Field('bio'),
-  Field('profile_picture')]
+  Field('profile_picture', 'upload')]
 
 auth.define_tables(username=False, signature=False)
 
@@ -113,6 +113,34 @@ mail.settings.ssl = configuration.get('smtp.ssl') or False
 auth.settings.registration_requires_verification = False
 auth.settings.registration_requires_approval = False
 auth.settings.reset_password_requires_verification = True
+
+# Trying to make a copy of the user's email address on register
+# Not being used currently
+#auth.settings.register_onaccept.append(
+ #   lambda form:   
+  #      db.users.insert(
+   #         user_email=form.vars.email,
+    #        user_bio=form.vars.bio,
+     #       user_first_name=form.vars.first_name,
+      #      user_last_name=form.vars.last_name,
+       #     user_id=form.vars.id,
+        #    user_profile_picture=form.vars.profile_picture
+        #)
+#)
+
+# Trying to make a copy of bio changes when editing profile
+# Not being used currently
+#auth.settings.profile_onaccept.append(
+ #   lambda form:   
+  #      db.users.update_or_insert(
+   #        (db.users.user_id == form.vars.id),
+    #       user_bio=form.vars.bio,
+     #      user_first_name=form.vars.first_name,
+      #     user_last_name=form.vars.last_name,
+       #    user_id=form.vars.id,
+        #   user_profile_picture=form.vars.profile_picture
+       #)
+#)
 
 # -------------------------------------------------------------------------  
 # read more at http://dev.w3.org/html5/markup/meta.name.html               
