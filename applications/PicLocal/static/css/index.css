@@ -177,92 +177,93 @@ div.main_content span.likers_list {
   font-size: 14px;
   top: 10px;
   position: relative;
+  color: black;
 }
-/* line 171, ../sass/index.scss */
+/* line 172, ../sass/index.scss */
 .container .card .content img {
   width: 100%;
 }
-/* line 176, ../sass/index.scss */
+/* line 177, ../sass/index.scss */
 .container .card .card-footer {
   padding: 15px;
   box-sizing: border-box;
   color: black;
 }
-/* line 181, ../sass/index.scss */
+/* line 182, ../sass/index.scss */
 .container .card .card-footer .thumbs {
   color: black;
 }
-/* line 185, ../sass/index.scss */
+/* line 186, ../sass/index.scss */
 .container .card .card-footer .likes {
   font-size: 12px;
   padding-bottom: 10px;
 }
-/* line 189, ../sass/index.scss */
+/* line 190, ../sass/index.scss */
 .container .card .card-footer .likes .fa {
   color: #3CB14E;
 }
-/* line 194, ../sass/index.scss */
+/* line 195, ../sass/index.scss */
 .container .card .card-footer .description p {
   margin: 0;
   font-size: 14px;
   padding: 0 0 5px 0;
 }
-/* line 198, ../sass/index.scss */
+/* line 199, ../sass/index.scss */
 .container .card .card-footer .description p .username {
   font-weight: 700;
 }
-/* line 204, ../sass/index.scss */
+/* line 205, ../sass/index.scss */
 .container .card .card-footer .comments p {
   margin: 0;
   font-size: 14px;
   padding: 0 0 5px 0;
 }
-/* line 209, ../sass/index.scss */
+/* line 210, ../sass/index.scss */
 .container .card .card-footer .comments p .username {
   font-weight: 700;
 }
-/* line 214, ../sass/index.scss */
+/* line 215, ../sass/index.scss */
 .container .card .card-footer hr {
   padding: 0;
 }
-/* line 217, ../sass/index.scss */
+/* line 218, ../sass/index.scss */
 .container .card .card-footer form {
   padding-top: 15px;
 }
-/* line 219, ../sass/index.scss */
+/* line 220, ../sass/index.scss */
 .container .card .card-footer form .fa {
   font-size: 24px;
 }
-/* line 222, ../sass/index.scss */
+/* line 223, ../sass/index.scss */
 .container .card .card-footer form .heart {
   width: 7%;
   color: red;
   display: inline-block;
 }
-/* line 226, ../sass/index.scss */
+/* line 227, ../sass/index.scss */
 .container .card .card-footer form .heart .fa {
   position: relative;
   top: 3px;
 }
-/* line 231, ../sass/index.scss */
+/* line 232, ../sass/index.scss */
 .container .card .card-footer form .add-comment {
   width: 80%;
   display: inline-block;
 }
-/* line 234, ../sass/index.scss */
+/* line 235, ../sass/index.scss */
 .container .card .card-footer form .add-comment input {
   width: 100%;
   padding: 5px;
   font-weight: 16px;
   border: 0px solid #fff;
 }
-/* line 241, ../sass/index.scss */
+/* line 242, ../sass/index.scss */
 .container .card .card-footer form .options {
   width: 7%;
   display: inline-block;
   float: right;
 }
-/* line 245, ../sass/index.scss */
+/* line 246, ../sass/index.scss */
 .container .card .card-footer form .options .fa {
   position: relative;
   top: 3px;

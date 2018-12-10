@@ -40,6 +40,7 @@ def get_post_list():
                 post_long=post.post_long,
                 post_lat=post.post_lat,
                 post_image=post.post_image,
+                post_date=post.post_date,
                 thumb_count=0,
                 thumb= None
             )
