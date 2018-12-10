@@ -1,9 +1,13 @@
 # Here go your api methods.
 
+def get_user_email():
+    return None if auth.user is None else auth.user.email
 
 @auth.requires_signature()
 def add_post():
+    author = get_user_email()
     post_id = db.post.insert(
+        post_author=author,
         post_title=request.vars.post_title,
         post_content=request.vars.post_content,
         post_long=request.vars.post_long,
@@ -11,7 +15,7 @@ def add_post():
         post_image=request.vars.post_image,
     )
     # We return the id of the new post, so we can insert it along all the others.
-    return response.json(dict(post_id=post_id))
+    return response.json(dict(post_id=post_id, post_author=author,))
 
 def logged_in():
     if auth.user == None:
@@ -53,41 +57,48 @@ def get_post_list():
     # For homogeneity, we always return a dictionary.
     return response.json(dict(post_list=results))
 
-def get_users_post_list():
-    results = []
-    if auth.user is None:
-        # Not logged in.
-        rows = db().select(db.post.ALL, orderby=~db.post.post_time)
-        for row in rows:
-            results.append(dict(
-                id=row.id,
-                post_title=row.post_title,
-                post_content=row.post_content,
-                post_author=row.post_author,
-                post_date =row.post_date,
-                post_long=row.post_long,
-                post_lat=row.post_lat,
-                post_image=row.post_image,
-                thumb = None,
-            ))
-    else:
-        # Logged in.
-        #rows = db(db.post.post_author == auth.user.email).select()
-        rows = db().select(db.post.post_author == auth.user.email)
-        for row in rows:
-            results.append(dict(
-                id=row.post.id,
-                post_title=row.post.post_title,
-                post_content=row.post.post_content,
-                post_author=row.post.post_author,
-                post_date=row.post.post_date,
-                post_long=row.post.post_long,
-                post_lat=row.post.post_lat,
-                post_image=row.post.post_image,
-                thumb = None if row.thumb.id is None else row.thumb.thumb_state,
-            ))
+def get_user_post_list():
+    # if auth.user == db.post.post_author:
+    #     return response.json(dict(post_list=[]))
+    # else:
+    if auth.user.email == db.post.post_author:
+        posts = db(db.post).select()
+        # posts = posts.find(lambda post: user_email in post_author
+        #                     ).sort(lambda post: post_author)
+
+        # for post in posts:
+        #     print posts
+
+        thumbs = db(db.thumb).select()
+        results = []
+
+        for post in posts:
+            post_to_send = dict(
+                id=post.id,
+                post_title=post.post_title,
+                post_content=post.post_content,
+                post_author=post.post_author,
+                post_long=post.post_long,
+                post_lat=post.post_lat,
+                post_image=post.post_image,
+                thumb_count=0,
+                thumb= None
+            )
+
+            for thumb in thumbs:
+                if thumb.post_id == post.id:
+                    if thumb.user_email == auth.user.email:
+                        post_to_send['thumb'] = thumb.thumb_state
+                    if thumb.thumb_state == 'u':
+                        post_to_send['thumb_count'] += 1
+                    elif thumb.thumb_state=='d':
+                        post_to_send['thumb_count'] -= 1
+            results.append(post_to_send)
+    print(results)
     # For homogeneity, we always return a dictionary.
     return response.json(dict(post_list=results))
+
+
 
 def get_thumb_count_on_post():
     likes = len(db((db.thumb.post_id == request.vars.post_id) & (db.thumb.thumb_state == 'u')).select())
