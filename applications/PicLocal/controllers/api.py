@@ -160,6 +160,18 @@ def edit_comment():
     )
     return "done"
 
+def my_comment():
+    if auth.user.email != request.vars.author:
+        db.comments.update_or_insert((db.comments.id == request.vars.id),
+            mine = 1
+        )
+    else:
+        db.comments.update_or_insert((db.comments.id == request.vars.id),
+            mine = 0
+        )
+    return "done with comments"
+
+
 
 def post_image():
     image_str = request.vars.image_url
