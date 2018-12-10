@@ -29,18 +29,29 @@ header {
   z-index: 20;
 }
 /* line 18, ../sass/index.scss */
-header a {
+header i {
   box-sizing: border-box;
-  width: 24.9%;
+  width: 33.3%;
   display: inline-block;
   margin-left: -3px;
   text-align: center;
   padding: 12px;
 }
+
 /* line 27, ../sass/index.scss */
-header a:hover .fa-heart-o {
-  color: red;
+header a:hover .fa-home{
+  color: #1D994B;
 }
+
+header .fa-leaf{
+    color: #1D994B;
+    font-size: 25px;
+  }
+
+header a:hover .fa-user{
+    color: #1D994B;
+}
+
 /* line 32, ../sass/index.scss */
 header a .fa {
   color: #111;
